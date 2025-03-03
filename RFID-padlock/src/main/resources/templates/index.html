@@ -3,8 +3,17 @@
 <head>
     <title>Index</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<p th:text="|Hello, ${name}!|" />
+    <p th:text="|Hello, ${name}!|" />
+    <div class="links">
+        <div class="locks">
+            <a th:href="@{/send/lock}">Add new lock</a>
+            <a th:href="@{/all/lock}">View all locks</a>
+        </div>
+
+    </div>
+
 </body>
 </html>

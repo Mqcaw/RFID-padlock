@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Send Lock</title>
+</head>
+<body>
+<h1>Submit Lock Data</h1>
+
+<!-- Form to send POST request -->
+<form th:action="@{/send/lock}" method="post">
+    <!-- Form fields matching the properties of Lock entity -->
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" required />
+
+    <label for="lockerNumber">Locker Number:</label>
+    <input type="text" id="lockerNumber" name="lockerNumber" required />
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

@@ -1,9 +1,13 @@
 package com.capstone.RFID_padlock;
 
+import com.capstone.RFID_padlock.Entity.Lock;
+import com.capstone.RFID_padlock.Entity.Service.LockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //curl http://localhost:8081/actuator/health
 //Invoke-WebRequest -Uri "http://localhost:8081/all" -Method Get
@@ -13,7 +17,31 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class MainController {
 
-    private SimpleEntityService service;
+    private LockService lockService;
+
+
+    @Autowired
+    public void MainController(LockService lockService) {
+        this.lockService = lockService;
+    }
+
+
+
+
+
+    @GetMapping("/send/lock")
+    public String send() {
+        return "send_lock";
+    }
+
+    @PostMapping("/send/lock")
+    public String addEntity(@ModelAttribute Lock lock, Model model) {
+        lockService.addEntity(lock);
+        return "redirect:/success";
+    }
+
+
+
 
 
     @GetMapping("/")
@@ -22,30 +50,18 @@ public class MainController {
         return "index";
     }
 
-
-    @Autowired
-    public void SimpleEntityController(SimpleEntityService service) {
-        this.service = service;
+    @GetMapping("/success")
+    public String success() {
+        return "success";
     }
 
-    @GetMapping("/send")
-    public String send() {
-        return "send";
-    }
+    @GetMapping("/all/lock")
+    public String getAllData(Model model) {
+        List<Lock> allLocks = lockService.getAllEntities();
 
-    @PostMapping("/send")
-    public SimpleEntity addEntity(@RequestBody SimpleEntity entity) {
-        return service.addEntity(entity);
-    }
+        model.addAttribute("locks", allLocks);
 
-    @ResponseBody
-    @GetMapping("/all")
-    public String getAllData() {
-        StringBuilder result = new StringBuilder();
-        for (SimpleEntity item : service.getAllEntities()) {
-            result.append(item.toString()).append("\n");
-        }
-        return result.toString();
+        return "view_locks";
     }
 
 
