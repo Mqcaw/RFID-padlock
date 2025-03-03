@@ -12,6 +12,9 @@ import java.util.List;
 //curl http://localhost:8081/actuator/health
 //Invoke-WebRequest -Uri "http://localhost:8081/all" -Method Get
 
+// mysqlsh
+// \sql
+// \connect user:pass@host:port
 
 
 @Controller
@@ -45,8 +48,8 @@ public class MainController {
 
 
     @GetMapping("/")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
+    public String greeting(@RequestParam(name="test", required=false, defaultValue="World") String var, Model model) {
+        model.addAttribute("name", var);
         return "index";
     }
 
