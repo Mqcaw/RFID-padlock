@@ -75,12 +75,35 @@ public class MainController {
     }
 
     @GetMapping("/all/lock")
-    public String getAllData(Model model) {
+    public String getAllLocks(Model model) {
         List<Lock> allLocks = lockService.getAllEntities();
 
         model.addAttribute("locks", allLocks);
 
         return "view_locks";
+    }
+
+        @GetMapping("/all/lock/{id}")
+        public String showLockDetails(@PathVariable("id") Long id, Model model) {
+            Lock lock = lockService.getEntity(id);
+
+            if (lock != null) {
+                model.addAttribute("lock", lock);
+                return "lock_details";
+            } else {
+                return "redirect:/all/lock";
+            }
+        }
+
+
+
+    @GetMapping("/all/key_card")
+    public String getAllKeyCards(Model model) {
+        List<KeyCard> allKeyCards = keyCardService.getAllEntities();
+        System.out.println(allKeyCards.toString());
+        model.addAttribute("key_cards", allKeyCards);
+
+        return "view_key_cards";
     }
 
 

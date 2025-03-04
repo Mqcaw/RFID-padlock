@@ -26,4 +26,13 @@ public class LockService implements ServiceInterface<Lock> {
     public List<Lock> getAllEntities() {
         return repository.findAll();
     }
+
+    @Override
+    public Lock getEntity(Long id) {
+        if (repository.findById(id).isPresent()) {
+            return repository.findById(id).get();
+        } else {
+            return null;
+        }
+    }
 }

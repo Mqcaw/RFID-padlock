@@ -6,5 +6,6 @@ public interface ServiceInterface<T> {
 
     T addEntity(T t);
     List<T> getAllEntities();
+    T getEntity(Long id);
 
 }

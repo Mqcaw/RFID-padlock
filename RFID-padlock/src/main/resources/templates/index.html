@@ -9,8 +9,14 @@
     <p th:text="|Hello, ${name}!|" />
     <div class="links">
         <div class="locks">
+            <p>Lock links</p>
             <a th:href="@{/send/lock}">Add new lock</a>
             <a th:href="@{/all/lock}">View all locks</a>
+        </div>
+        <div class="cards">
+            <p>Key Card links</p>
+            <a th:href="@{/send/key_card}">Add new key card</a>
+            <a th:href="@{/all/key_card}">View all key cards</a>
         </div>
 
     </div>

@@ -26,4 +26,15 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
     public List<KeyCard> getAllEntities() {
         return keyCardRepository.findAll();
     }
+
+    @Override
+    public KeyCard getEntity(Long id) {
+        if (keyCardRepository.findById(id).isPresent()) {
+            return keyCardRepository.findById(id).get();
+        } else {
+            return null;
+        }
+    }
+
+
 }

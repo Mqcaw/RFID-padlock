@@ -4,21 +4,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.List;
+
 @Entity
 @Table(name="key_cards")
 public class KeyCard {
 
     @Id
     private Long id;
-    private Lock lock;
+    private Long studentId;
+    private List<Long> lockIDList;
 
     public KeyCard() {
     }
 
-    public KeyCard(Long id, Lock lock) {
+    public KeyCard(Long id, Long lockID) {
         this.id = id;
-        this.lock = lock;
+        this.lockIDList.add(lockID);
     }
+
+
 
     public Long getId() {
         return id;
@@ -28,20 +33,35 @@ public class KeyCard {
         this.id = id;
     }
 
-    public Lock getLock() {
-        return lock;
+    public Long getStudentId() {
+        return studentId;
     }
 
-    public void setLock(Lock lock) {
-        this.lock = lock;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
-    public int getLockerNumber() {
-        return lock.getLockerNumber();
+    public List<Long> getLockIDList() {
+        return lockIDList;
     }
+
+    public Long getLockId(int index) {
+        return lockIDList.get(index);
+    }
+
+    public void setLockID(List<Long> lockIDList) {
+        this.lockIDList = lockIDList;
+    }
+
+    public Long addLockId(Long lockID) {
+        lockIDList.add(lockID);
+        return lockID;
+    }
+
+
 
     @Override
     public String toString() {
-        return "KeyCard{" + "id=" + id + ", lock=" + lock + '}';
+        return "KeyCard{" + "id=" + id + ", lock=" + lockIDList.toString() + '}';
     }
 }
