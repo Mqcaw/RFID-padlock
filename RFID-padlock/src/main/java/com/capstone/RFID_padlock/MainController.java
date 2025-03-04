@@ -1,6 +1,8 @@
 package com.capstone.RFID_padlock;
 
+import com.capstone.RFID_padlock.Entity.KeyCard;
 import com.capstone.RFID_padlock.Entity.Lock;
+import com.capstone.RFID_padlock.Entity.Service.KeyCardService;
 import com.capstone.RFID_padlock.Entity.Service.LockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,11 +23,13 @@ import java.util.List;
 public class MainController {
 
     private LockService lockService;
+    private KeyCardService keyCardService;
 
 
     @Autowired
-    public void MainController(LockService lockService) {
+    public void MainController(LockService lockService, KeyCardService keyCardService) {
         this.lockService = lockService;
+        this.keyCardService = keyCardService;
     }
 
 
@@ -33,13 +37,25 @@ public class MainController {
 
 
     @GetMapping("/send/lock")
-    public String send() {
+    public String sendLock() {
         return "send_lock";
     }
+
+    @GetMapping("/send/key_card")
+    public String sendKeyCard() {
+        return "send_key_card";
+    }
+
 
     @PostMapping("/send/lock")
     public String addEntity(@ModelAttribute Lock lock, Model model) {
         lockService.addEntity(lock);
+        return "redirect:/success";
+    }
+
+    @PostMapping("/send/key_card")
+    public String addEntity(@ModelAttribute KeyCard keyCard, Model model) {
+        keyCardService.addEntity(keyCard);
         return "redirect:/success";
     }
 
