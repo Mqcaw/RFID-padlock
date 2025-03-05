@@ -7,13 +7,14 @@ import jakarta.persistence.*;
 public class Lock {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int lockerNumber;
+    private Long keyCardId;
 
     public Lock() {}
 
-    public Lock(Long id, int lockerNumber) {
-        this.id = id;
+    public Lock(int lockerNumber) {
         this.lockerNumber = lockerNumber;
     }
 
@@ -31,6 +32,22 @@ public class Lock {
 
     public void setLockerNumber(int lockerNumber) {
         this.lockerNumber = lockerNumber;
+    }
+
+    public Long getKeyCardId() {
+        return keyCardId;
+    }
+
+    public void setKeyCardId(Long keyCardId) {
+        this.keyCardId = keyCardId;
+    }
+
+    public Lock updateData(Lock lock) {
+        if (lock == null) return null;
+
+        this.lockerNumber = lock.getLockerNumber();
+        this.keyCardId = lock.getKeyCardId();
+        return this;
     }
 
     @Override

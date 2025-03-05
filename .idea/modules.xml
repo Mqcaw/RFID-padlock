@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RFID-padlock/RFID-padlock.iml" filepath="$PROJECT_DIR$/RFID-padlock/RFID-padlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/RFID-padlock.iml" filepath="$PROJECT_DIR$/.idea/RFID-padlock.iml" />
     </modules>
   </component>
 </project>

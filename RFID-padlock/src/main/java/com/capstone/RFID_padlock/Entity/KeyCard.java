@@ -1,9 +1,8 @@
 package com.capstone.RFID_padlock.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.security.Key;
 import java.util.List;
 
 @Entity
@@ -11,18 +10,13 @@ import java.util.List;
 public class KeyCard {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long studentId;
     private List<Long> lockIDList;
 
     public KeyCard() {
     }
-
-    public KeyCard(Long id, Long lockID) {
-        this.id = id;
-        this.lockIDList.add(lockID);
-    }
-
 
 
     public Long getId() {
@@ -56,6 +50,14 @@ public class KeyCard {
     public Long addLockId(Long lockID) {
         lockIDList.add(lockID);
         return lockID;
+    }
+
+    public KeyCard updateData(KeyCard keyCard) {
+        if (keyCard == null) return null;
+
+        this.studentId = keyCard.getStudentId();
+        this.lockIDList = keyCard.getLockIDList();
+        return this;
     }
 
 
