@@ -8,21 +8,41 @@ import com.capstone.RFID_padlock.Entity.Service.StudentService;
 import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Key;
 import java.util.List;
 
+//Health
 //curl http://localhost:8081/actuator/health
-//Invoke-WebRequest -Uri "http://localhost:8081/api/locks" -Method Get
-//Invoke-WebRequest -Uri "http://localhost:8081/api/key_cards" -Method Get
-//Invoke-WebRequest -Uri "http://localhost:8081/api/students" -Method Get
 
-// mysqlsh
-// \sql
-// \connect user:pass@host:port
+//CRUD commands for reference, Windows PowerShell
 
+//Create
+//Invoke-RestMethod -Uri "http://localhost:8081/api/locks" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"lockerNumber":234}' | Out-String)
+//Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"name":"Jackson Funk", "grade":12}' | Out-String)
+//Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{}' | Out-String)
+
+//Read
+//Invoke-WebRequest -Uri "http://localhost:8081/api/locks" -Method Get | Select-Object -ExpandProperty Content | ConvertFrom-Json | Format-Table
+//Invoke-WebRequest -Uri "http://localhost:8081/api/locks/1" -Method Get | Select-Object -ExpandProperty Content | ConvertFrom-Json | Format-Table
+
+//Update
+//Partial Functionality
+//Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Put -Headers @{"Content-Type"="application/json"} -Body ('{"keyCardId":1}' | Out-String)
+//this will null or 0 all other entries other than keyCardId and id
+
+//Delete
+//return 500 error but still deletes
+//adding new entry does not fill in gaps
+//cannot add a specific is
+
+
+//TODO: make updating a single variable not null others. (only set non-null variables, see Update comment and function for entity)
+//TODO: fix delete (see Delete comment)
+//TODO: only a fully setup lock can open. Meaning it has been assigned to a key card, can the key card has been assigned to a student
+//TODO: remove auto id for Student Entity, this should be set as the students existing school id.
+
+//TODO: add comments
 
 @Controller
 @RequestMapping("/api")
@@ -78,6 +98,7 @@ public class ApiController {
     }
 
     @DeleteMapping("/locks/{id}")
+    @ResponseBody
     public void deleteLock(@PathVariable("id") Long id) {
         lockService.delete(id);
     }
@@ -120,6 +141,7 @@ public class ApiController {
     }
 
     @DeleteMapping("/key_cards/{id}")
+    @ResponseBody
     public void deleteKeyCard(@PathVariable("id") Long id) {
         keyCardService.delete(id);
     }
@@ -163,6 +185,7 @@ public class ApiController {
     }
 
     @DeleteMapping("/students/{id}")
+    @ResponseBody
     public void deleteStudent(@PathVariable("id") Long id) {
         studentService.delete(id);
     }
