@@ -42,16 +42,9 @@ public class Lock {
         this.keyCardId = keyCardId;
     }
 
-    public Lock updateData(Lock lock) {
-        if (lock == null) return null;
-
-        this.lockerNumber = lock.getLockerNumber();
-        this.keyCardId = lock.getKeyCardId();
-        return this;
-    }
 
     @Override
     public String toString() {
-        return "Lock{" + "id=" + id + ", lockerNumber=" + lockerNumber + '}';
+        return "Lock{" + "id=" + id + ", lockerNumber=" + lockerNumber + ", keyCardId=" + keyCardId + '}';
     }
 }

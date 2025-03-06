@@ -18,31 +18,33 @@ import java.util.List;
 //CRUD commands for reference, Windows PowerShell
 
 //Create
-//Invoke-RestMethod -Uri "http://localhost:8081/api/locks" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"lockerNumber":234}' | Out-String)
-//Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"name":"Jackson Funk", "grade":12}' | Out-String)
+//Invoke-RestMethod -Uri "http://localhost:8081/api/locks" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"lockerNumber":234}')
+//Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":6700, "name":"Jackson Funk", "grade":12}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{}' | Out-String)
 
 //Read
-//Invoke-WebRequest -Uri "http://localhost:8081/api/locks" -Method Get | Select-Object -ExpandProperty Content | ConvertFrom-Json | Format-Table
-//Invoke-WebRequest -Uri "http://localhost:8081/api/locks/1" -Method Get | Select-Object -ExpandProperty Content | ConvertFrom-Json | Format-Table
+//Invoke-RestMethod -Uri "http://localhost:8081/api/locks" -Method Get
+//Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Get
 
 //Update
-//Partial Functionality
+//TODO: Currently must update all fields, may add API calls to manually update specific fields as needed.
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Put -Headers @{"Content-Type"="application/json"} -Body ('{"keyCardId":1}' | Out-String)
 //this will null or 0 all other entries other than keyCardId and id
 
 //Delete
+//TODO: fix delete (see Delete comment)
 //return 500 error but still deletes
 //adding new entry does not fill in gaps
 //cannot add a specific is
 
+//Assign
+//Invoke-RestMethod -Uri "http://localhost:8081/api/assign/lock?lockId=2&keyCardId=1" -Method Post
+//Invoke-RestMethod -Uri "http://localhost:8081/api/assign/key-card?keyCardId=1&studentId=6700" -Method Post
 
-//TODO: make updating a single variable not null others. (only set non-null variables, see Update comment and function for entity)
-//TODO: fix delete (see Delete comment)
-//TODO: only a fully setup lock can open. Meaning it has been assigned to a key card, can the key card has been assigned to a student
-//TODO: remove auto id for Student Entity, this should be set as the students existing school id.
+
 
 //TODO: add comments
+//TODO: more extensive testing, mostly when creating
 
 @Controller
 @RequestMapping("/api")
@@ -88,17 +90,12 @@ public class ApiController {
     @PutMapping("/locks/{id}")
     @ResponseBody
     public Lock updateLock(@PathVariable("id") Long id, @RequestBody Lock lock) {
-        Lock existingLock = lockService.getEntity(id);
-        if (existingLock == null) {
-            return null;
-        }
 
-        existingLock = lockService.getEntity(id).updateData(lock);
-        return lockService.save(existingLock);
+        lock.setId(id);
+        return lockService.save(lock);
     }
 
     @DeleteMapping("/locks/{id}")
-    @ResponseBody
     public void deleteLock(@PathVariable("id") Long id) {
         lockService.delete(id);
     }
@@ -131,17 +128,11 @@ public class ApiController {
     @PutMapping("/key_cards/{id}")
     @ResponseBody
     public KeyCard updateKeyCard(@PathVariable("id") Long id, @RequestBody KeyCard keyCard) {
-        KeyCard existingKeyCard = keyCardService.getEntity(id);
-        if (existingKeyCard == null) {
-            return null;
-        }
-
-        existingKeyCard = keyCardService.getEntity(id).updateData(keyCard);
-        return keyCardService.save(existingKeyCard);
+        keyCard.setId(id);
+        return keyCardService.save(keyCard);
     }
 
     @DeleteMapping("/key_cards/{id}")
-    @ResponseBody
     public void deleteKeyCard(@PathVariable("id") Long id) {
         keyCardService.delete(id);
     }
@@ -175,17 +166,11 @@ public class ApiController {
     @PutMapping("/students/{id}")
     @ResponseBody
     public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student student) {
-        Student existingStudent = studentService.getEntity(id);
-        if (existingStudent == null) {
-            return null;
-        }
-
-        existingStudent = studentService.getEntity(id).updateData(student);
-        return studentService.save(existingStudent);
+        student.setId(id);
+        return studentService.save(student);
     }
 
     @DeleteMapping("/students/{id}")
-    @ResponseBody
     public void deleteStudent(@PathVariable("id") Long id) {
         studentService.delete(id);
     }
@@ -198,9 +183,23 @@ public class ApiController {
     @PostMapping("/locks/{id}/access-check")
     @ResponseBody
     public boolean accessGranted(@PathVariable("id") Long id) {
-        if (lockService.getEntity(id) == null) return false;
+        Lock lock = lockService.getEntity(id);
+        if (lock.getKeyCardId() == null) return false;
+        if (keyCardService.getEntity(lock.getKeyCardId()).getStudentId() == null) return false;
         return true;
     }
+
+    @PostMapping("/assign/lock")
+    @ResponseBody
+    public void assignLock(@RequestParam(name="lockId") Long lockId, @RequestParam(name="keyCardId") Long keyCardId) {
+        keyCardService.addLock(keyCardId, lockId);
+    }
+    @PostMapping("/assign/key-card")
+    @ResponseBody
+    public void assignKeyCard(@RequestParam(name="keyCardId") Long keyCardId, @RequestParam(name="studentId") Long studentId) {
+        studentService.assignKeyCard(studentId, keyCardId);
+    }
+
 
 
 

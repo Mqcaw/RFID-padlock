@@ -3,6 +3,7 @@ package com.capstone.RFID_padlock.Entity;
 import jakarta.persistence.*;
 
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,6 +17,7 @@ public class KeyCard {
     private List<Long> lockIDList;
 
     public KeyCard() {
+        lockIDList = new ArrayList<>();
     }
 
 
@@ -52,13 +54,6 @@ public class KeyCard {
         return lockID;
     }
 
-    public KeyCard updateData(KeyCard keyCard) {
-        if (keyCard == null) return null;
-
-        this.studentId = keyCard.getStudentId();
-        this.lockIDList = keyCard.getLockIDList();
-        return this;
-    }
 
 
 

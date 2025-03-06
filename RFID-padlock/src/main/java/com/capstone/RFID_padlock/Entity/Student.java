@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int grade;
@@ -16,7 +15,8 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, int grade) {
+    public Student(Long id, String name, int grade) {
+        this.id = id;
         this.name = name;
         this.grade = grade;
     }
@@ -53,13 +53,5 @@ public class Student {
         this.keyCardId = keyCardId;
     }
 
-    public Student updateData(Student student) {
-        if (student == null) return null;
-
-        this.name = student.getName();
-        this.grade = student.getGrade();
-        this.keyCardId = student.getKeyCardId();
-        return this;
-    }
 
 }

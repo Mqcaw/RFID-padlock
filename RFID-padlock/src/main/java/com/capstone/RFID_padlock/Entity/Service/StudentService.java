@@ -1,6 +1,7 @@
 package com.capstone.RFID_padlock.Entity.Service;
 
 import com.capstone.RFID_padlock.Entity.KeyCard;
+import com.capstone.RFID_padlock.Entity.Lock;
 import com.capstone.RFID_padlock.Entity.Repository.KeyCardRepository;
 import com.capstone.RFID_padlock.Entity.Repository.StudentRepository;
 import com.capstone.RFID_padlock.Entity.Student;
@@ -56,8 +57,13 @@ public class StudentService implements ServiceInterface<Student> {
     }
 
     public void assignKeyCard(Long studentId, Long keyCardId){
-        getEntity(studentId).setKeyCardId(keyCardId);
-        keyCardService.getEntity(keyCardId).setStudentId(studentId);
+        Student student = getEntity(studentId);
+        KeyCard keyCard = keyCardService.getEntity(keyCardId);
+
+        student.setKeyCardId(keyCardId);
+        keyCard.setStudentId(studentId);
+        save(student);
+        keyCardService.save(keyCard);
     }
 
 
