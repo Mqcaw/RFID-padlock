@@ -1,25 +1,64 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Index</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
+    <title>Student Management</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            //padding: 10px;
+            text-align: left;
+            //border: 1px solid #ddd;
+        }
+        th {
+
+            background-color: #f1f1f1;
+            /* Windows 2000-style Bevel */
+            background: #e0e0e0; /* Flat gray background */
+            border: 2px solid #aaa;
+            border-top: 2px solid #ccc;
+            border-left: 2px solid #ccc;
+            box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.5), inset -1px -1px 3px rgba(0, 0, 0, 0.2);
+            text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
+
+td a {
+
+
+        }
+        td a:hover {
+            //text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <p th:text="|Hello, ${name}!|" />
-    <div class="links">
-        <div class="locks">
-            <p>Lock links</p>
-            <a th:href="@{/send/lock}">Add new lock</a>
-            <a th:href="@{/all/lock}">View all locks</a>
-        </div>
-        <div class="cards">
-            <p>Key Card links</p>
-            <a th:href="@{/send/key_card}">Add new key card</a>
-            <a th:href="@{/all/key_card}">View all key cards</a>
-        </div>
 
-    </div>
+<h1>List of Students</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Grade</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop through the items and display them in the table -->
+    <tr th:each="student : ${students}">
+        <td th:text="${student.id}">ID</td>
+        <td th:text="${student.name}">Name</td>
+        <td th:text="${student.grade}">Grade</td>
+        <td>
+            <!-- Link to the student's info page, opening in a new tab -->
+            <a th:href="@{'/student/' + ${student.id}}" target="_blank">View Info</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

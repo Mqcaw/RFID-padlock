@@ -81,9 +81,6 @@ public class ApiController {
     public Lock getLock(@PathVariable("id") Long id) {
         Lock lock = lockService.getEntity(id);
 
-        if (lock == null) {
-            return null;
-        }
         return lock;
     }
 
