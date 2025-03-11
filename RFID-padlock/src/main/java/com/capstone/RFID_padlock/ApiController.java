@@ -32,10 +32,10 @@ import java.util.List;
 //this will null or 0 all other entries other than keyCardId and id
 
 //Delete
-//TODO: fix delete (see Delete comment)
+//TODO: fix delete
 //return 500 error but still deletes
-//adding new entry does not fill in gaps
-//cannot add a specific is
+//adding new entry does not fill in gaps in id
+//cannot choose add a specific id/override auto id, may not matter
 
 //Assign
 //Invoke-RestMethod -Uri "http://localhost:8081/api/assign/lock?lockId=2&keyCardId=1" -Method Post

@@ -44,6 +44,13 @@ public class MainController {
         return "success";
     }
 
+    @GetMapping("/students")
+    public String students(Model model) {
+        List<Student> students = studentService.getAllEntities();
+        model.addAttribute("students", students);
+        return "students";
+    }
+
 
 
 

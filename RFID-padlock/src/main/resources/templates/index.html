@@ -1,64 +1,182 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Student Management</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            //padding: 10px;
-            text-align: left;
-            //border: 1px solid #ddd;
-        }
-        th {
+    <title>FreeDNS - Free DNS - Dynamic DNS - Static DNS subdomain and domain hosting</title>
+    <meta http-equiv="content-type" content="text/html">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="Author" content="dnsadmin@afraid.org">
 
-            background-color: #f1f1f1;
-            /* Windows 2000-style Bevel */
-            background: #e0e0e0; /* Flat gray background */
-            border: 2px solid #aaa;
-            border-top: 2px solid #ccc;
-            border-left: 2px solid #ccc;
-            box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.5), inset -1px -1px 3px rgba(0, 0, 0, 0.2);
-            text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 
-td a {
-
-
-        }
-        td a:hover {
-            //text-decoration: underline;
-        }
-    </style>
+    <script th:src="@{js/script.js}"></script>
 </head>
-<body>
 
-<h1>List of Students</h1>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Grade</th>
-        <th>Action</th>
-    </tr>
-    </thead>
+<body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
+<table border="0" width="100%" cellspacing="5" height="100%">
     <tbody>
-    <!-- Loop through the items and display them in the table -->
-    <tr th:each="student : ${students}">
-        <td th:text="${student.id}">ID</td>
-        <td th:text="${student.name}">Name</td>
-        <td th:text="${student.grade}">Grade</td>
-        <td>
-            <!-- Link to the student's info page, opening in a new tab -->
-            <a th:href="@{'/student/' + ${student.id}}" target="_blank">View Info</a>
+
+
+
+    <!-- top header -->
+    <tr>
+        <td colspan="3" bgcolor="white" align="left">
+
+            <table bgcolor="red" cellpadding="8" width="100%" height="100%">
+                <tbody>
+                <tr>
+                    <td bgcolor="white">
+                        <font face="verdana, Helvetica, Arial" size="2" color="black">
+                            <b><font color="red">NOTICE!</font></b> <b>This page is still under construction</b> and currently not functional.
+                        </font>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
         </td>
     </tr>
+
+    <!-- bottom header -->
+    <tr>
+        <td align="right" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Home  </b></font></td>
+    </tr>
+
+
+
+
+
+
+    <!-- body row -->
+    <tr>
+        <!-- left body cell -->
+        <td bgcolor="white" valign="top" align="center" width="15%">
+            <b>Contents:</b>
+            <hr>
+
+            <table width="60%">
+                <tbody>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/}">Home</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a href="/">Docs</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/students}">Students</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a href="/">Registry</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a href="/">Assign</a></td>
+                    <td>]</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+
+        <!-- center body cell -->
+        <td bgcolor="white">
+            <table width="100%">
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <h1>RFID Padlock API - example commands</h1>
+                        <br>
+                        <table width="70%">
+                            <tbody>
+                            <!-- Example one -->
+                            <tr>
+                                <td bgcolor="#cccccc">Read all students (PowerShell)</td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#000000">
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Get<br> <br></font>
+                                </td>
+                            </tr>
+
+
+
+                            <!-- Example two -->
+                            <tr>
+                                <td bgcolor="#cccccc">Create new student (PowerShell)</td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#000000">
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> Invoke-RestMethod -Uri "http://IP_ADDRESS/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":ID, "name":"NAME", "grade":GRADE}')<br> <br></font>
+                                </td>
+                            </tr>
+
+
+                            <!-- Example three -->
+                            <tr>
+                                <td bgcolor="#cccccc">Get Student's key card from name (PowerShell)</td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#000000">
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> $students = (Invoke-RestMethod -Uri "http://IP_ADDRESS/api/students" -Method Get); $student = $students | Where-Object { $_.name.Trim().ToLower() -eq "name" } | Select-Object -First 1;  $keycards = (Invoke-RestMethod -Uri "http://IP_ADDRESS/api/key_cards" -Method Get); $keycard = $keycards | Where-Object { $_.id -eq $student.keyCardId } | Select-Object -First 1; $keycard<br> <br></font>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+        <!-- right body cell -->
+        <td valign="top" bgcolor="white" width="15%">
+
+
+
+        </td>
+    </tr>
+
+
+
+
+
+    <!-- top footer row -->
+    <tr>
+        <td colspan="3" align="center" bgcolor="white"></td>
+    </tr>
+
+    <!-- center footer row -->
+    <tr>
+        <td colspan="3" bgcolor="white">
+            <center>
+                © 2025 Jackson Funk, <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
+            </center>
+        </td>
+    </tr>
+
+    <!-- bottom footer row -->
+    <tr>
+        <td bgcolor="white" align="center" colspan="3"></td>
+    </tr>
+
+
+
+
     </tbody>
 </table>
 
 </body>
+
+
 </html>
