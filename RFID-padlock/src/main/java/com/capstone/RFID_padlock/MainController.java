@@ -1,52 +1,57 @@
 package com.capstone.RFID_padlock;
 
+import com.capstone.RFID_padlock.Entity.KeyCard;
+import com.capstone.RFID_padlock.Entity.Lock;
+import com.capstone.RFID_padlock.Entity.Service.KeyCardService;
+import com.capstone.RFID_padlock.Entity.Service.LockService;
+import com.capstone.RFID_padlock.Entity.Service.StudentService;
+import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-//curl http://localhost:8081/actuator/health
-//Invoke-WebRequest -Uri "http://localhost:8081/all" -Method Get
-
+import java.util.List;
 
 
 @Controller
 public class MainController {
 
-    private SimpleEntityService service;
-
-
-    @GetMapping("/")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "index";
-    }
+    private LockService lockService;
+    private KeyCardService keyCardService;
+    private StudentService studentService;
 
 
     @Autowired
-    public void SimpleEntityController(SimpleEntityService service) {
-        this.service = service;
+    public void MainController(LockService lockService, KeyCardService keyCardService, StudentService studentService) {
+        this.lockService = lockService;
+        this.keyCardService = keyCardService;
+        this.studentService = studentService;
     }
 
-    @GetMapping("/send")
-    public String send() {
-        return "send";
+
+
+    @GetMapping("/")
+    public String greeting(@RequestParam(name="test", required=false, defaultValue="World") String var, Model model) {
+        model.addAttribute("name", var);
+        List<Student> students = studentService.getAllEntities();
+        model.addAttribute("students", students);
+        return "index";
     }
 
-    @PostMapping("/send")
-    public SimpleEntity addEntity(@RequestBody SimpleEntity entity) {
-        return service.addEntity(entity);
+    @GetMapping("/success")
+    public String success() {
+        return "success";
     }
 
-    @ResponseBody
-    @GetMapping("/all")
-    public String getAllData() {
-        StringBuilder result = new StringBuilder();
-        for (SimpleEntity item : service.getAllEntities()) {
-            result.append(item.toString()).append("\n");
-        }
-        return result.toString();
+    @GetMapping("/students")
+    public String students(Model model) {
+        List<Student> students = studentService.getAllEntities();
+        model.addAttribute("students", students);
+        return "students";
     }
+
+
 
 
 }
