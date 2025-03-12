@@ -26,3 +26,41 @@ table.append(...rows);
 document.querySelectorAll(".arrow").forEach(arrow => arrow.innerText = "🞁");
 arrow.innerText = sortDirection[colIndex] ? "🞁" : "🞃";
 }
+
+    function assignKeyCard() {
+        document.getElementById('keyCardModal').style.display = 'block';
+    }
+
+    function closeKeyCardModal() {
+        document.getElementById('keyCardModal').style.display = 'none';
+    }
+
+    function updateStudent() {
+    const formData = new FormData(document.getElementById('studentForm'));
+
+    // Create an object from the form data
+    const data = {};
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+
+    // Log the data to check if the ID is included
+    console.log(data); // Debugging line to check the content of data object
+
+    // Send a PUT request using fetch
+    fetch('/api/students/' + data.id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(updatedStudent => {
+        window.location.href = '/student/' + updatedStudent.id;
+    })
+    .catch(error => {
+        console.error('Error updating student:', error);
+        alert('Failed to update student');
+    });
+}

@@ -51,6 +51,13 @@ public class MainController {
         return "students";
     }
 
+    @GetMapping("/student/{id}")
+    public String student(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("student", studentService.getEntity(id));
+        return "student";
+    }
+
+
 
 
 
