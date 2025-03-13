@@ -47,6 +47,7 @@ h1 { text-decoration: none;  font-size: 16px;  font-family: Verdana,Helvetica,Ar
 
 .button {border-radius: 4px;}
 
-.scroll {overflow-y: scroll;}
-
-.scroll {overflow-y: scroll;}
+.table-container {
+    max-height: 800px; /* Set the desired height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+}

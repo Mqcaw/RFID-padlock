@@ -1,14 +1,12 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:overflow-y="http://www.w3.org/1999/xhtml"
-      xmlns:height="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>RFID Padlock - Students</title>
+    <title>RFID Padlock - Home</title>
     <meta http-equiv="content-type" content="text/html">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
     <meta name="Author" content="dnsadmin@afraid.org">
 
-    <link rel="stylesheet" th:href="@{/css/students.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 
     <script th:src="@{js/script.js}"></script>
 </head>
@@ -22,134 +20,211 @@
 
     <!-- top header -->
     <tr>
-        <td colspan="3" bgcolor="red" align="left">
-            <font face="verdana, Helvetica, Arial" size="5" color="black">
-                <h1>RFID padlock - Students</h1>
-            </font>
+        <td colspan="3" bgcolor="white" align="left">
+
+            <table bgcolor="red" cellpadding="8" width="100%" height="100%">
+                <tbody>
+                <tr>
+                    <td bgcolor="white">
+                        <font face="verdana, Helvetica, Arial" size="2" color="black">
+                            <b><font color="red">NOTICE!</font></b> <b>This page is still under construction</b> and currently not functional.
+                        </font>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
         </td>
     </tr>
+
+    <!-- bottom header -->
+    <tr>
+        <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Students  </b></font></td>
+    </tr>
+
+
+
 
 
 
     <!-- body row -->
     <tr>
-        <!-- center body cell -->
-        <td bgcolor="white" >
-                <table width="100%" align="center" id="studentTable">
-                    <!-- Table head content -->
-                    <thead bgcolor="#e0e0e0">
-                    <tr>
-                        <th width="15%">ID</th>
-                        <th>Name</th>
-                        <th width="15%px">Grade</th>
-                        <th width="25%px">Action</th>
-                    </tr>
-                    </thead>
+        <!-- left body cell -->
+        <td bgcolor="white" valign="top" align="center" width="15%">
+            <b>Contents:</b>
+            <hr>
 
-                    <!-- Table body content -->
-                    <tbody>
-                    <!-- Loop through the items and display them in the table -->
-                    <tr th:each="student : ${students}">
-                        <td th:text="${student.id}">ID</td>
-                        <td th:text="${student.name}">Name</td>
-                        <td th:text="${student.grade}">Grade</td>
-                        <td>
-                            <!-- Link to the student's info page, opening in a new tab -->
-                            <a th:href="@{'/student/' + ${student.id}}" target="_blank">View Info</a>
-                        </td>
-                    </tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
-                    </tbody>
-                </table>
+            <table width="60%">
+                <tbody>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/}">Home</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a href="/">Docs</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/students}">Students</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a href="/">Registry</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a href="/">Assign</a></td>
+                    <td>]</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+
+        <!-- center body cell -->
+         <td bgcolor="white">
+            <table width="100%">
+                <tbody>
+                <tr>
+                    <!-- center body cell -->
+                    <td bgcolor="white">
+                        <div class="table-container">
+                        <table width="100%" align="center" id="studentTable">
+                            <!-- Table head content -->
+                            <thead bgcolor="#e0e0e0">
+                            <tr>
+                                <th width="15%">ID</th>
+                                <th>Name</th>
+                                <th width="15%px">Grade</th>
+                                <th width="25%px">Action</th>
+                            </tr>
+                            </thead>
+
+                            <!-- Table body content -->
+                            <tbody>
+                            <!-- Loop through the items and display them in the table -->
+                            <tr th:each="student : ${students}">
+                                <td th:text="${student.id}">ID</td>
+                                <td th:text="${student.name}">Name</td>
+                                <td th:text="${student.grade}">Grade</td>
+                                <td>
+                                    <!-- Link to the student's info page, opening in a new tab -->
+                                    <a th:href="@{'/student/' + ${student.id}}" target="_blank">View Info</a>
+                                </td>
+                            </tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            <tr><td>TEST</td><td>TEST</td><td>TEST</td><td>TEST</td></tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+        <!-- right body cell -->
+        <td valign="top" bgcolor="white" width="15%">
+
+
+
         </td>
     </tr>
+
+
 
 
 
@@ -179,5 +254,6 @@
 </table>
 
 </body>
+
 
 </html>

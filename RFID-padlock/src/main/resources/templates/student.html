@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Assign</title>
+    <title>RFID Padlock - Home</title>
     <meta http-equiv="content-type" content="text/html">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
@@ -8,10 +8,9 @@
 
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 
-    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{js/script.js}"></script>
 </head>
 
-<!-- TODO: form submission clears key card value -->
 
 <body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
 <table border="0" width="100%" cellspacing="5" height="100%">
@@ -40,7 +39,7 @@
 
     <!-- bottom header -->
     <tr>
-        <td align="right" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Assign  </b></font></td>
+        <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Home  </b></font></td>
     </tr>
 
 
@@ -72,6 +71,16 @@
                     <td align="center"><a th:href="@{/students}">Students</a></td>
                     <td>]</td>
                 </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a href="/">Registry</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a href="/">Assign</a></td>
+                    <td>]</td>
+                </tr>
                 </tbody>
             </table>
 
@@ -84,52 +93,43 @@
                 <tbody>
                 <tr>
                     <td align="center">
-                        <h1 th:text="${student.name}">Name</h1>
+                        <h1>RFID Padlock API - example commands</h1>
                         <br>
                         <table width="70%">
                             <tbody>
+                            <!-- Example one -->
                             <tr>
-                                <td>
-                                    <form id="studentForm">
-                                        <div>
-                                            <label for="studentName">Name:</label>
-                                            <input type="text" id="studentName" name="name" th:value="${student.name}" required/>
-                                        </div>
-                                        <div>
-                                            <label for="studentId">ID:</label>
-                                            <input type="text" id="studentId" name="id" th:value="${student.id}" required/>
-                                        </div>
-                                        <div>
-                                            <label for="studentGrade">Grade:</label>
-                                            <input type="text" id="studentGrade" name="grade" th:value="${student.grade}" required/>
-                                        </div>
-                                        <div>
-                                            <label for="keyCardId">Key Card ID:</label>
-                                            <input type="text" id="keyCardId" name="keyCardId" th:value="${student.keyCardId}" disabled/>
-                                            <button type="button" onclick="window.location.href='/api/key-card/' + /*[[${student.keyCardId}]]*/">Edit</button>
-                                            <button type="button" onclick="assignKeyCard()">Assign Card</button>
-                                        </div>
+                                <td bgcolor="#cccccc">Read all students (PowerShell)</td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#000000">
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Get<br> <br></font>
+                                </td>
+                            </tr>
 
-                                        <div>
-                                            <button type="button" onclick="updateStudent()">Update Student</button>
-                                        </div>
-                                    </form>
-                                </td>
+
+
+                            <!-- Example two -->
+                            <tr>
+                                <td bgcolor="#cccccc">Create new student (PowerShell)</td>
                             </tr>
                             <tr>
-                                <td>
-                                    <div id="keyCardModal" style="display:none;">
-                                        <h2>Assign Key Card to Student</h2>
-                                        <form th:action="@{/api/assign/key-card}" method="post">
-                                            <label for="newKeyCardId">Key Card ID:</label>
-                                            <input type="text" id="newKeyCardId" name="keyCardId" required/>
-                                            <input type="hidden" name="studentId" th:value="${student.id}"/>
-                                            <button type="submit" onclick="window.location.href='/student/' + /*[[${student.keyCardId}]]*/">Assign</button>
-                                            <button type="button" onclick="closeKeyCardModal()">Cancel</button>
-                                        </form>
-                                    </div>
+                                <td bgcolor="#000000">
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> Invoke-RestMethod -Uri "http://IP_ADDRESS/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":ID, "name":"NAME", "grade":GRADE}')<br> <br></font>
                                 </td>
                             </tr>
+
+
+                            <!-- Example three -->
+                            <tr>
+                                <td bgcolor="#cccccc">Get Student's key card from name (PowerShell)</td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#000000">
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> $students = (Invoke-RestMethod -Uri "http://IP_ADDRESS/api/students" -Method Get); $student = $students | Where-Object { $_.name.Trim().ToLower() -eq "name" } | Select-Object -First 1;  $keycards = (Invoke-RestMethod -Uri "http://IP_ADDRESS/api/key_cards" -Method Get); $keycard = $keycards | Where-Object { $_.id -eq $student.keyCardId } | Select-Object -First 1; $keycard<br> <br></font>
+                                </td>
+                            </tr>
+
                             </tbody>
                         </table>
                     </td>
@@ -176,11 +176,7 @@
     </tbody>
 </table>
 
-<script>
-
-
-</script>
-
 </body>
+
 
 </html>
