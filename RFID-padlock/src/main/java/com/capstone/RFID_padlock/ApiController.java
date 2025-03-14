@@ -34,7 +34,7 @@ import java.util.List;
 
 //Delete
 //TODO: fix delete
-//return 500 error but still deletes
+//return 500 error but still deletes, think it is caused by passing Id into delete() not deleteByOd()
 //adding new entry does not fill in gaps in id
 //cannot choose add a specific id/override auto id, may not matter
 
