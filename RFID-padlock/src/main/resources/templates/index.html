@@ -98,7 +98,7 @@
                             </tr>
                             <tr>
                                 <td bgcolor="#000000">
-                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Get<br> <br></font>
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> Invoke-RestMethod -Uri "http://IP_ADDRESS:PORT/api/students" -Method Get<br> <br></font>
                                 </td>
                             </tr>
 
@@ -110,7 +110,7 @@
                             </tr>
                             <tr>
                                 <td bgcolor="#000000">
-                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> Invoke-RestMethod -Uri "http://IP_ADDRESS/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":ID, "name":"NAME", "grade":GRADE}')<br> <br></font>
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> Invoke-RestMethod -Uri "http://IP_ADDRESS:PORT/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":ID, "name":"NAME", "grade":GRADE}')<br> <br></font>
                                 </td>
                             </tr>
 
@@ -121,7 +121,7 @@
                             </tr>
                             <tr>
                                 <td bgcolor="#000000">
-                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> $students = (Invoke-RestMethod -Uri "http://IP_ADDRESS/api/students" -Method Get); $student = $students | Where-Object { $_.name.Trim().ToLower() -eq "name" } | Select-Object -First 1;  $keycards = (Invoke-RestMethod -Uri "http://IP_ADDRESS/api/key_cards" -Method Get); $keycard = $keycards | Where-Object { $_.id -eq $student.keyCardId } | Select-Object -First 1; $keycard<br> <br></font>
+                                    <font color="cccccc"> [<font color="lightgreen">~</font>] <font color="white">$</font> $students = (Invoke-RestMethod -Uri "http://IP_ADDRESS:PORT/api/students" -Method Get); $student = $students | Where-Object { $_.name.Trim().ToLower() -eq "name" } | Select-Object -First 1;  $keycards = (Invoke-RestMethod -Uri "http://IP_ADDRESS/api/key_cards" -Method Get); $keycard = $keycards | Where-Object { $_.id -eq $student.keyCardId } | Select-Object -First 1; $keycard<br> <br></font>
                                 </td>
                             </tr>
 
