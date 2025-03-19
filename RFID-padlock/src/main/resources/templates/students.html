@@ -143,7 +143,9 @@
                                 </td>
 
                                 <!-- Locker #s -->
-
+                                <td>
+                                    <span th:text="${studentLocksMap[student.id]}"></span>
+                                </td>
                                 <!--Action -->
                                 <td>
                                     <a th:href="@{'/student/' + ${student.id}}">View Info</a>
