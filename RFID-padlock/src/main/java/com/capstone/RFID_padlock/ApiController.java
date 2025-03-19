@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -193,10 +194,9 @@ public class ApiController {
         keyCardService.addLock(keyCardId, lockId);
     }
     @PostMapping("/assign/key-card")
-    public String assignKeyCard(@RequestParam(name="keyCardId") Long keyCardId, @RequestParam(name="studentId") Long studentId, Model model) {
+    @ResponseBody
+    public void assignKeyCard(@RequestParam(name="keyCardId") Long keyCardId, @RequestParam(name="studentId") Long studentId, Model model) {
         studentService.assignKeyCard(studentId, keyCardId);
-        model.addAttribute("student", studentService.getEntity(studentId));
-        return "student";
     }
 
 

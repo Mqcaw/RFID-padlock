@@ -64,3 +64,41 @@ arrow.innerText = sortDirection[colIndex] ? "🞁" : "🞃";
         alert('Failed to update student');
     });
 }
+
+function submitKeyCard(event) {
+        alert("test");
+        event.preventDefault(); // Prevent default form submission
+        const form = event.target;
+
+        // Perform the POST request with the form data (AJAX request)
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the server (optional)
+            console.log(data);
+
+            // Redirect to the original page or stay on the same page
+            window.location.href = '/students/'; // Redirect after the successful submission
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+
+function deleteStudent(id) {
+    confirm("Are you sure you want to delete this student\nPres OK to continue or Cancel.");
+    // Send a PUT request using fetch
+    fetch('/api/students/' + id, {
+        method: 'DELETE'
+    })
+    .catch(error => {
+        console.error('Error deleting student:', error);
+        alert('Failed to delete student');
+    });
+
+    window.location.href = window.location.origin + "/students";
+}

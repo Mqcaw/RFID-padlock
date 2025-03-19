@@ -32,6 +32,9 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
 
     @Override
     public KeyCard getEntity(Long id) {
+        if (id == null) {
+            return null;
+        }
         if (keyCardRepository.findById(id).isPresent()) {
             return keyCardRepository.findById(id).get();
         } else {

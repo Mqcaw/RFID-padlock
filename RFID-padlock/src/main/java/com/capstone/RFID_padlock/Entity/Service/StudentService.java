@@ -59,11 +59,18 @@ public class StudentService implements ServiceInterface<Student> {
     public void assignKeyCard(Long studentId, Long keyCardId){
         Student student = getEntity(studentId);
         KeyCard keyCard = keyCardService.getEntity(keyCardId);
+        Student previousStudent = getEntity(keyCard.getStudentId());
 
         student.setKeyCardId(keyCardId);
         keyCard.setStudentId(studentId);
+        previousStudent.setKeyCardId(null);
         save(student);
+        save(previousStudent);
         keyCardService.save(keyCard);
+    }
+
+    public List<Student> getStudentsWhereKeyCardIdIsNotNull() {
+        return studentRepository.findByKeyCardIdIsNotNull();
     }
 
 
