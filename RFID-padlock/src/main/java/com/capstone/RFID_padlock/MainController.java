@@ -12,7 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -48,7 +51,24 @@ public class MainController {
     @GetMapping("/students")
     public String students(Model model) {
         List<Student> students = studentService.getAllEntities();
+        List<KeyCard> keyCards = keyCardService.getAllEntities();
+        List<Lock> locks = lockService.getAllEntities();
+        Map<Long, String> studentLocksMap = new HashMap<>();
+
+        for (Student student : students) {
+            KeyCard keyCard = keyCardService.getEntity(student.getKeyCardId());
+            if (keyCard != null) {
+                studentLocksMap.put(student.getId(), keyCard.getLockIDList().toString());
+            }
+        }
+
+        System.out.println(studentLocksMap);
+
         model.addAttribute("students", students);
+        model.addAttribute("keycards", keyCards);
+        model.addAttribute("locks", locks);
+        model.addAttribute("studentLocksMap", studentLocksMap);
+
         return "students";
     }
 
@@ -57,6 +77,7 @@ public class MainController {
         model.addAttribute("student", studentService.getEntity(id));
         return "student";
     }
+
 
 
 

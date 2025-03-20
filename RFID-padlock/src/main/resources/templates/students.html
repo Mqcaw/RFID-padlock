@@ -48,7 +48,10 @@
                 <tr>
                     <td bgcolor="white" width="15%"></td>
                     <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Students</b></font></td>
-                    <td bgcolor="white" width="15%" align="center"><button>Add Student</button></td>
+                    <td bgcolor="white" width="15%" align="center">
+                        <button>Reload</button>
+                        <button>Add Student</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -113,8 +116,11 @@
                             <thead bgcolor="#e0e0e0">
                             <tr>
                                 <th width="15%">ID</th>
+                                <th width="15%px">Key Card ID</th>
                                 <th>Name</th>
                                 <th width="15%px">Grade</th>
+                                <th width="15%px">Locks</th>
+                                <th width="15%px">Locker #s</th>
                                 <th width="25%px">Action</th>
                             </tr>
                             </thead>
@@ -123,11 +129,25 @@
                             <tbody>
                             <!-- Loop through the items and display them in the table -->
                             <tr th:each="student : ${students}">
+                                <!--Student ID -->
                                 <td th:text="${student.id}">ID</td>
+                                <!--Key Card ID -->
+                                <td th:text="${student.keyCardId}">Key Card Id</td>
+                                <!--Name -->
                                 <td th:text="${student.name}">Name</td>
+                                <!-- Grade -->
                                 <td th:text="${student.grade}">Grade</td>
+                                <!--Locks -->
                                 <td>
-                                    <!-- Link to the student's info page, opening in a new tab -->
+                                    <span th:text="${studentLocksMap[student.id]}"></span>
+                                </td>
+
+                                <!-- Locker #s -->
+                                <td>
+                                    <span th:text="${studentLocksMap[student.id]}"></span>
+                                </td>
+                                <!--Action -->
+                                <td>
                                     <a th:href="@{'/student/' + ${student.id}}">View Info</a>
                                 </td>
                             </tr>

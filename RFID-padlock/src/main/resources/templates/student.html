@@ -49,7 +49,7 @@
                 <tr>
                     <td bgcolor="white" width="15%" align="center"><a th:href="@{/students}"><button>← Back</button></a></td>
                     <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b th:text="${student.name}">name</b></b></font></td>
-                    <td bgcolor="white" width="15%" align="center"><button >Remove Student</button></td>
+                    <td bgcolor="white" width="15%" align="center" th:onclick="deleteStudent([[${student.id}]])"><button>Remove Student</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -133,13 +133,16 @@
                                 <td>
                                     <div id="keyCardModal" style="display:none;">
                                         <h2>Assign Key Card to Student</h2>
-                                        <form th:action="@{/api/assign/key-card}" method="post">
-                                            <label for="newKeyCardId">Key Card ID:</label>
-                                            <input type="text" id="newKeyCardId" name="keyCardId" required/>
-                                            <input type="hidden" name="studentId" th:value="${student.id}"/>
-                                            <button type="submit" onclick="window.location.href='/student/' + /*[[${student.keyCardId}]]*/">Assign</button>
-                                            <button type="button" onclick="closeKeyCardModal()">Cancel</button>
+
+                                        <form th:action="@{/api/assign/key-card}" method="post" onsubmit="submitKeyCard(event)">
+                                        <label for="newKeyCardId">Key Card ID:</label>
+                                        <input type="text" id="newKeyCardId" name="keyCardId" required/>
+                                        <input type="hidden" name="studentId" th:value="${student.id}"/>
+
+                                        <button type="submit">Assign</button>
+                                        <button type="button" onclick="closeKeyCardModal()">Cancel</button>
                                         </form>
+
                                     </div>
                                 </td>
                             </tr>
