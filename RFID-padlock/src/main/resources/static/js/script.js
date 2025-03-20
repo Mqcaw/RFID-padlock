@@ -70,7 +70,6 @@ function updateStudent() {
 }
 
 function submitKeyCard(event) {
-        alert("test");
         event.preventDefault(); // Prevent default form submission
         const form = event.target;
 
