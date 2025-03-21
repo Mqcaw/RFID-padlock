@@ -70,7 +70,6 @@ function updateStudent() {
 }
 
 function submitKeyCard(event) {
-        alert("test");
         event.preventDefault(); // Prevent default form submission
         const form = event.target;
 
@@ -104,5 +103,5 @@ function deleteStudent(id) {
         alert('Failed to delete student');
     });
 
-    window.location.href = window.location.origin + "/students";
+    window.location.href = window.location.origin + "/registry";
 }

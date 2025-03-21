@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,28 +49,47 @@ public class MainController {
         return "success";
     }
 
-    @GetMapping("/students")
-    public String students(Model model) {
+    @GetMapping("/registry")
+    public String registry(Model model) {
         List<Student> students = studentService.getAllEntities();
         List<KeyCard> keyCards = keyCardService.getAllEntities();
         List<Lock> locks = lockService.getAllEntities();
         Map<Long, String> studentLocksMap = new HashMap<>();
+        Map<Long, String> studentLockerNumberMap = new HashMap<>();
 
         for (Student student : students) {
             KeyCard keyCard = keyCardService.getEntity(student.getKeyCardId());
-            if (keyCard != null) {
-                studentLocksMap.put(student.getId(), keyCard.getLockIDList().toString());
+            if (keyCard == null) {
+                continue;
             }
+            studentLocksMap.put(student.getId(), keyCard.getLockIDList().toString());
         }
 
-        System.out.println(studentLocksMap);
+        for (Student student : students) {
+            KeyCard keyCard = keyCardService.getEntity(student.getKeyCardId());
+            String string = "[";
+            if (keyCard == null) {
+                continue;
+            }
+            List<Integer> numberList = new ArrayList<>();
+            for (Long id : keyCard.getLockIDList()) {
+                if (id == null) {
+                    continue;
+                }
+                numberList.add(lockService.getEntity(id).getLockerNumber());
+            }
+            studentLockerNumberMap.put(student.getId(), numberList.toString());
+        }
+
+
 
         model.addAttribute("students", students);
         model.addAttribute("keycards", keyCards);
         model.addAttribute("locks", locks);
         model.addAttribute("studentLocksMap", studentLocksMap);
+        model.addAttribute("studentLockerNumberMap", studentLockerNumberMap);
 
-        return "students";
+        return "registry";
     }
 
     @GetMapping("/student/{id}")
