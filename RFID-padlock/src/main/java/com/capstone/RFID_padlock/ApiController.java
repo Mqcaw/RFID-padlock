@@ -166,7 +166,10 @@ public class ApiController {
     @ResponseBody
     public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student student) {
         student.setId(id);
-        studentService.assignKeyCard(student.getId(), student.getKeyCardId());
+        if (student.getKeyCardId() != null) {
+            studentService.assignKeyCard(student.getId(), student.getKeyCardId());
+        }
+
         return studentService.save(student);
     }
 

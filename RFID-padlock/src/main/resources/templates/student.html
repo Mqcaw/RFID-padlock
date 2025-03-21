@@ -110,12 +110,13 @@
                                 <td>
                                     <form id="studentForm">
                                         <div>
+                                            <label for="studentId">ID:</label>
+                                            <input style="background-color: #e0e0e0;" type="text" id="studentId" name="id" readonly="readonly" th:value="${student.id}" required/>
+                                        </div>
+                                        </br>
+                                        <div>
                                             <label for="studentName">Name:</label>
                                             <input type="text" id="studentName" name="name" th:value="${student.name}" required/>
-                                        </div>
-                                        <div>
-                                            <label for="studentId">ID:</label>
-                                            <input type="text" id="studentId" name="id" th:value="${student.id}" required/>
                                         </div>
                                         <div>
                                             <label for="studentGrade">Grade:</label>
@@ -125,6 +126,7 @@
                                             <label for="studentKeyCardId">Key Card ID:</label>
                                             <input type="text" id="studentKeyCardId" name="keyCardId" th:value="${student.keyCardId}" required/>
                                         </div>
+                                        </br>
                                         <div>
                                             <button type="button" onclick="updateStudent()">Update Student</button>
                                         </div>
