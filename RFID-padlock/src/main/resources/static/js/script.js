@@ -103,5 +103,5 @@ function deleteStudent(id) {
         alert('Failed to delete student');
     });
 
-    window.location.href = window.location.origin + "/students";
+    window.location.href = window.location.origin + "/registry";
 }
