@@ -47,6 +47,7 @@ import java.util.List;
 
 //TODO: add comments
 //TODO: more extensive testing, mostly when creating
+//TODO: add assign on lock and key card put mapping
 
 @Controller
 @RequestMapping("/api")
