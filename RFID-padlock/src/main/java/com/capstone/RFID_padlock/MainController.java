@@ -98,6 +98,12 @@ public class MainController {
         return "locks";
     }
 
+    @GetMapping("/key-cards")
+    public String keyCards(Model model) {
+        model.addAttribute("keyCards", keyCardService.getAllEntities());
+        return "key-cards";
+    }
+
     @GetMapping("/student/{id}")
     public String student(@PathVariable("id") Long id, Model model) {
         model.addAttribute("student", studentService.getEntity(id));
