@@ -48,7 +48,7 @@
                 <tr>
                     <td bgcolor="white" width="15%" align="center"><a th:href="@{/locks}">[   Back   ]</a></td>
                     <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b th:text="${lock.id}">id</b></b></font></td>
-                    <td bgcolor="white" width="15%" align="center" th:onclick=""><a th:href="@{/locks}">[   Remove Lock   ]</a></td>
+                    <td bgcolor="white" width="15%" align="center" th:onclick="deleteLock([[${lock.id}]])"><a th:href="@{/locks}">[   Remove Lock   ]</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -82,6 +82,11 @@
                 <tr>
                     <td>[</td>
                     <td align="center"><a th:href="@{/registry}">Registry</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/locks}">Locks</a></td>
                     <td>]</td>
                 </tr>
                 <tr>

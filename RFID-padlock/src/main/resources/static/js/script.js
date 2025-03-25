@@ -107,6 +107,20 @@ function deleteStudent(id) {
     window.location.href = window.location.origin + "/registry";
 }
 
+function deleteLock(id) {
+    confirm("Are you sure you want to delete this lock\nPres OK to continue or Cancel.");
+    // Send a PUT request using fetch
+    fetch('/api/locks/' + id, {
+        method: 'DELETE'
+    })
+    .catch(error => {
+        console.error('Error deleting student:', error);
+        alert('Failed to delete student');
+    });
+
+    window.location.href = window.location.origin + "/registry";
+}
+
 //function for update lock form on lock page.
 //gets the form data and makes api call to update the lock
 function updateLock() {
