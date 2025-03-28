@@ -116,6 +116,12 @@ public class MainController {
         return "lock";
     }
 
+    @GetMapping("/key-card/{id}")
+    public String keyCard(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("keyCard", keyCardService.getEntity(id));
+        return "key-card";
+    }
+
 
 
 
