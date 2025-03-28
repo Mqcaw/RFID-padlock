@@ -93,6 +93,8 @@ public class ApiController {
         lock.setId(id);
         if (lock.getKeyCardId() != null) {
             keyCardService.addLock(lock.getKeyCardId(), lock.getId());
+        } else {
+            keyCardService.getEntity(lockService.getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
         }
 
         return lockService.save(lock);
@@ -144,8 +146,10 @@ public class ApiController {
     }
 
     @DeleteMapping("/key_cards/{id}")
-    public void deleteKeyCard(@PathVariable("id") Long id) {
+    @ResponseBody
+    public List<KeyCard> deleteKeyCard(@PathVariable("id") Long id) {
         keyCardService.delete(id);
+        return keyCardService.getAllEntities();
     }
 
     @PostMapping("/key_cards/{id}/reset_list")

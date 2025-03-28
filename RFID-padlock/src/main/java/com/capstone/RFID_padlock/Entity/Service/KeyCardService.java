@@ -62,9 +62,12 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
         KeyCard keyCard = getEntity(keyCardId);
         Lock lock = lockService.getEntity(lockId);
         if (lock.getKeyCardId() != null) {
-            KeyCard prevKeyCard = getEntity(lock.getKeyCardId());
-            prevKeyCard.removeLockId(lock.getId());
-            save(prevKeyCard);
+            if (getEntity(lock.getKeyCardId()) != null) {
+                KeyCard prevKeyCard = getEntity(lock.getKeyCardId());
+                prevKeyCard.removeLockId(lock.getId());
+                save(prevKeyCard);
+            }
+
         }
 
         keyCard.addLockId(lockId);
