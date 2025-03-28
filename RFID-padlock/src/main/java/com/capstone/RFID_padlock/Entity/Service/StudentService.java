@@ -59,13 +59,15 @@ public class StudentService implements ServiceInterface<Student> {
     public void assignKeyCard(Long studentId, Long keyCardId){
         Student student = getEntity(studentId);
         KeyCard keyCard = keyCardService.getEntity(keyCardId);
-        Student previousStudent = getEntity(keyCard.getStudentId());
+        if (keyCard.getStudentId() != null) {
+            Student previousStudent = getEntity(keyCard.getStudentId());
+            previousStudent.setKeyCardId(null);
+            save(previousStudent);
+        }
 
         student.setKeyCardId(keyCardId);
         keyCard.setStudentId(studentId);
-        previousStudent.setKeyCardId(null);
         save(student);
-        save(previousStudent);
         keyCardService.save(keyCard);
     }
 

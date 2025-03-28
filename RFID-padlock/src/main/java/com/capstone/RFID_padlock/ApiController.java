@@ -90,8 +90,11 @@ public class ApiController {
     @PutMapping("/locks/{id}")
     @ResponseBody
     public Lock updateLock(@PathVariable("id") Long id, @RequestBody Lock lock) {
-
         lock.setId(id);
+        if (lock.getKeyCardId() != null) {
+            keyCardService.addLock(lock.getKeyCardId(), lock.getId());
+        }
+
         return lockService.save(lock);
     }
 
@@ -129,12 +132,26 @@ public class ApiController {
     @ResponseBody
     public KeyCard updateKeyCard(@PathVariable("id") Long id, @RequestBody KeyCard keyCard) {
         keyCard.setId(id);
+        if (keyCard.getStudentId() != null) {
+            studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
+        }
+        if (keyCard.getLockIDList() != null) {
+            for (Long lockId : keyCard.getLockIDList()) {
+                keyCardService.addLock(keyCard.getId(), lockId);
+            }
+        }
         return keyCardService.save(keyCard);
     }
 
     @DeleteMapping("/key_cards/{id}")
     public void deleteKeyCard(@PathVariable("id") Long id) {
         keyCardService.delete(id);
+    }
+
+    @PostMapping("/key_cards/{id}/reset_list")
+    @ResponseBody
+    public void resetKeyCardList(@PathVariable("id") Long id) {
+        keyCardService.resetList(id);
     }
 
 

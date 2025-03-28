@@ -54,6 +54,14 @@ public class KeyCard {
         return lockID;
     }
 
+    public void removeLockId(Long id) {
+        lockIDList.remove(id);
+    }
+
+    public void resetList() {
+        lockIDList = new ArrayList<>();
+    }
+
 
 
 
