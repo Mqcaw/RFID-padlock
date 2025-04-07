@@ -9,6 +9,8 @@ import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
 //CRUD commands for reference, Windows PowerShell
 
 //Create
+//TODO: adding new entry does not fill in gaps in id
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"lockerNumber":234}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":6700, "name":"Jackson Funk", "grade":12}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{}' | Out-String)
@@ -28,14 +31,12 @@ import java.util.List;
 
 //Update
 //TODO: Currently must update all fields, may add API calls to manually update specific fields as needed.
+
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Put -Headers @{"Content-Type"="application/json"} -Body ('{"keyCardId":1}' | Out-String)
 //this will null or 0 all other entries other than keyCardId and id
 
 //Delete
-//TODO: fix delete
-//return 500 error but still deletes
-//adding new entry does not fill in gaps in id
-//cannot choose add a specific id/override auto id, may not matter
+//TODO: fix delete - see key card implementation for example on how to fix
 
 //Assign
 //Invoke-RestMethod -Uri "http://localhost:8081/api/assign/lock?lockId=2&keyCardId=1" -Method Post
@@ -45,6 +46,8 @@ import java.util.List;
 
 //TODO: add comments
 //TODO: more extensive testing, mostly when creating
+//TODO: add assign on lock and key card put mapping
+//TODO: expand access check to have the lock sync its info
 
 @Controller
 @RequestMapping("/api")
@@ -87,8 +90,13 @@ public class ApiController {
     @PutMapping("/locks/{id}")
     @ResponseBody
     public Lock updateLock(@PathVariable("id") Long id, @RequestBody Lock lock) {
-
         lock.setId(id);
+        if (lock.getKeyCardId() != null) {
+            keyCardService.addLock(lock.getKeyCardId(), lock.getId());
+        } else {
+            keyCardService.getEntity(lockService.getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
+        }
+
         return lockService.save(lock);
     }
 
@@ -126,12 +134,28 @@ public class ApiController {
     @ResponseBody
     public KeyCard updateKeyCard(@PathVariable("id") Long id, @RequestBody KeyCard keyCard) {
         keyCard.setId(id);
+        if (keyCard.getStudentId() != null) {
+            studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
+        }
+        if (keyCard.getLockIDList() != null) {
+            for (Long lockId : keyCard.getLockIDList()) {
+                keyCardService.addLock(keyCard.getId(), lockId);
+            }
+        }
         return keyCardService.save(keyCard);
     }
 
     @DeleteMapping("/key_cards/{id}")
-    public void deleteKeyCard(@PathVariable("id") Long id) {
+    @ResponseBody
+    public List<KeyCard> deleteKeyCard(@PathVariable("id") Long id) {
         keyCardService.delete(id);
+        return keyCardService.getAllEntities();
+    }
+
+    @PostMapping("/key_cards/{id}/reset_list")
+    @ResponseBody
+    public void resetKeyCardList(@PathVariable("id") Long id) {
+        keyCardService.resetList(id);
     }
 
 
@@ -164,6 +188,10 @@ public class ApiController {
     @ResponseBody
     public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student student) {
         student.setId(id);
+        if (student.getKeyCardId() != null) {
+            studentService.assignKeyCard(student.getId(), student.getKeyCardId());
+        }
+
         return studentService.save(student);
     }
 
@@ -193,11 +221,9 @@ public class ApiController {
     }
     @PostMapping("/assign/key-card")
     @ResponseBody
-    public void assignKeyCard(@RequestParam(name="keyCardId") Long keyCardId, @RequestParam(name="studentId") Long studentId) {
+    public void assignKeyCard(@RequestParam(name="keyCardId") Long keyCardId, @RequestParam(name="studentId") Long studentId, Model model) {
         studentService.assignKeyCard(studentId, keyCardId);
     }
-
-
 
 
 }

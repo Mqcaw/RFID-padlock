@@ -3,6 +3,7 @@ package com.capstone.RFID_padlock.Entity.Service;
 import com.capstone.RFID_padlock.Entity.KeyCard;
 import com.capstone.RFID_padlock.Entity.Lock;
 import com.capstone.RFID_padlock.Entity.Repository.KeyCardRepository;
+import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,9 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
 
     @Override
     public KeyCard getEntity(Long id) {
+        if (id == null) {
+            return null;
+        }
         if (keyCardRepository.findById(id).isPresent()) {
             return keyCardRepository.findById(id).get();
         } else {
@@ -55,14 +59,25 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
     }
 
     public void addLock(Long keyCardId, Long lockId) {
-        Lock lock = lockService.getEntity(lockId);
         KeyCard keyCard = getEntity(keyCardId);
+        Lock lock = lockService.getEntity(lockId);
+        if (lock.getKeyCardId() != null) {
+            if (getEntity(lock.getKeyCardId()) != null) {
+                KeyCard prevKeyCard = getEntity(lock.getKeyCardId());
+                prevKeyCard.removeLockId(lock.getId());
+                save(prevKeyCard);
+            }
+
+        }
 
         keyCard.addLockId(lockId);
         lock.setKeyCardId(keyCardId);
         save(keyCard);
         lockService.save(lock);
+    }
 
+    public void resetList(Long id) {
+        getEntity(id).resetList();
     }
 
 

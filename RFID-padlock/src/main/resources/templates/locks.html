@@ -1,0 +1,183 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>RFID Padlock - Locks</title>
+    <meta http-equiv="content-type" content="text/html">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="Author" content="dnsadmin@afraid.org">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <script th:src="@{js/script.js}"></script>
+</head>
+
+
+<body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
+<table border="0" width="100%" cellspacing="5" height="100%">
+    <tbody>
+
+
+
+    <!-- top header -->
+    <tr>
+        <td colspan="3" bgcolor="white" align="left" height="4%">
+
+            <table bgcolor="red" cellpadding="8" width="100%">
+                <tbody>
+                <tr>
+                    <td bgcolor="white">
+                        <font face="verdana, Helvetica, Arial" size="2" color="black">
+                            <b><font color="red">NOTICE!</font></b> <b>This page is still under construction</b> and currently not functional.
+                        </font>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+    </tr>
+
+
+
+    <!-- bottom header -->
+    <tr>
+        <td colspan="3" bgcolor="white" align="left" height="5%">
+            <table cellpadding="8" width="100%" height="100%">
+                <tbody>
+                <tr>
+                    <td bgcolor="white" width="15%"></td>
+                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Locks</b></font></td>
+                    <td bgcolor="white" width="15%" align="center">
+                        <a th:href="@{/locks}">[   Refresh   ]</a>
+                        <a th:href="@{/add-student}">[   Add Lock   ]</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+
+
+
+
+
+    <!-- body row -->
+    <tr>
+        <!-- left body cell -->
+        <td bgcolor="white" valign="top" align="center" width="15%">
+            <b>Contents:</b>
+            <hr>
+
+            <table width="60%">
+                <tbody>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/}">Home</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/registry}">Registry</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/locks}">Locks</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/key-cards}">Key Cards</a></td>
+                    <td>]</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+
+        <!-- center body cell -->
+         <td bgcolor="white">
+            <table width="100%">
+                <tbody>
+                <tr>
+                    <!-- center body cell -->
+                    <td bgcolor="white">
+                        <div class="table-container">
+                        <table width="100%" align="center" id="entryTable">
+                            <!-- Table head content -->
+                            <thead bgcolor="#e0e0e0">
+                            <tr>
+                                <th width="10%px">ID</th>
+                                <th>Locker Number</th>
+                                <th width="15%px">Key Card ID</th>
+                                <th width="15%px">Action</th>
+                            </tr>
+                            </thead>
+
+                            <!-- Table body content -->
+                            <tbody>
+                            <!-- Loop through the items and display them in the table -->
+                            <tr th:each="lock : ${locks}">
+                                <!--Lock ID -->
+                                <td th:text="${lock.id}">ID</td>
+                                <!--Locker # -->
+                                <td th:text="${lock.lockerNumber}">Locker Number</td>
+                                <!--Key Card ID -->
+                                <td th:text="${lock.keyCardId}">Key Card ID</td>
+                                <!--Action -->
+                                <td>
+                                    <a th:href="@{'/lock/' + ${lock.id}}">[   View Info   ]</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+        <!-- right body cell -->
+        <td valign="top" bgcolor="white" width="15%">
+
+        </td>
+    </tr>
+
+
+
+
+
+    <!-- top footer row -->
+    <tr>
+        <td colspan="3" align="center" bgcolor="white" height="1vh"></td>
+    </tr>
+
+    <!-- center footer row -->
+    <tr>
+        <td colspan="3" bgcolor="white" height="1%">
+            <center>
+                © 2025 Jackson Funk, Greyson Funk, Drake Kritzberger <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
+            </center>
+        </td>
+    </tr>
+
+    <!-- bottom footer row -->
+    <tr>
+        <td bgcolor="white" align="center" colspan="3" height="1vh"></td>
+    </tr>
+
+
+
+
+    </tbody>
+</table>
+
+</body>
+
+
+</html>

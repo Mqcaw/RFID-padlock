@@ -1,0 +1,184 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title th:text="${lock.id}">Assign</title>
+    <meta http-equiv="content-type" content="text/html">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="Author" content="dnsadmin@afraid.org">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <script th:src="@{/js/script.js}"></script>
+</head>
+
+
+<body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
+<table border="0" width="100%" cellspacing="5" height="100%">
+    <tbody>
+
+
+
+    <!-- top header -->
+    <tr>
+        <td colspan="3" bgcolor="white" align="left" height="4%">
+
+            <table bgcolor="red" cellpadding="8" width="100%">
+                <tbody>
+                <tr>
+                    <td bgcolor="white">
+                        <font face="verdana, Helvetica, Arial" size="2" color="black">
+                            <b><font color="red">NOTICE!</font></b> <b>This page is still under construction</b> and currently not functional.
+                        </font>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+    </tr>
+
+
+
+    <!-- bottom header -->
+    <tr>
+        <td colspan="3" bgcolor="white" align="left" height="5%">
+            <table cellpadding="8" width="100%" height="100%">
+                <tbody>
+                <tr>
+                    <td bgcolor="white" width="15%" align="center"><a th:href="@{/locks}">[   Back   ]</a></td>
+                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b th:text="${lock.id}">id</b></b></font></td>
+                    <td bgcolor="white" width="15%" align="center" th:onclick="deleteLock([[${lock.id}]])"><a th:href="@{/locks}">[   Remove Lock   ]</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+
+
+
+
+
+    <!-- body row -->
+    <tr>
+        <!-- left body cell -->
+        <td bgcolor="white" valign="top" align="center" width="15%">
+            <b>Contents:</b>
+            <hr>
+
+            <table width="60%">
+                <tbody>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/}">Home</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/registry}">Registry</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/locks}">Locks</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/key-cards}">Key Cards</a></td>
+                    <td>]</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+
+        <!-- center body cell -->
+        <td bgcolor="white">
+            <table width="100%">
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <h1 th:text="${lock.id}">ID</h1>
+                        <br>
+                        <table width="70%">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <form id="lockForm">
+                                        <div>
+                                            <label for="lockId">ID:</label>
+                                            <input style="background-color: #e0e0e0;" type="text" id="lockId" name="id" readonly="readonly" th:value="${lock.id}" required/>
+                                        </div>
+                                        </br>
+                                        <div>
+                                            <label for="lockerNumber">Number:</label>
+                                            <input type="text" id="lockerNumber" name="lockerNumber" th:value="${lock.lockerNumber}" required/>
+                                        </div>
+                                        <div>
+                                            <label for="lockKeyCardId">Key Card ID:</label>
+                                            <input type="text" id="lockKeyCardId" name="keyCardId" th:value="${lock.keyCardId}" required/>
+                                        </div>
+                                        </br>
+                                        <div>
+                                            <button type="button" onclick="updateLock()">Update Lock</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+        <!-- right body cell -->
+        <td valign="top" bgcolor="white" width="15%">
+
+
+
+        </td>
+    </tr>
+
+
+
+
+
+    <!-- top footer row -->
+    <tr>
+        <td colspan="3" align="center" bgcolor="white" height="1vh"></td>
+    </tr>
+
+    <!-- center footer row -->
+    <tr>
+        <td colspan="3" bgcolor="white" height="1%">
+            <center>
+                © 2025 Jackson Funk, Greyson Funk, <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
+            </center>
+        </td>
+    </tr>
+
+    <!-- bottom footer row -->
+    <tr>
+        <td bgcolor="white" align="center" colspan="3" height="1vh"></td>
+    </tr>
+
+
+
+
+    </tbody>
+</table>
+
+<script>
+
+
+</script>
+
+</body>
+
+</html>

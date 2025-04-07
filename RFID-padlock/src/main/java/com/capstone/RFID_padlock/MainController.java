@@ -7,11 +7,16 @@ import com.capstone.RFID_padlock.Entity.Service.LockService;
 import com.capstone.RFID_padlock.Entity.Service.StudentService;
 import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -44,12 +49,80 @@ public class MainController {
         return "success";
     }
 
-    @GetMapping("/students")
-    public String students(Model model) {
+    @GetMapping("/registry")
+    public String registry(Model model) {
         List<Student> students = studentService.getAllEntities();
+        List<KeyCard> keyCards = keyCardService.getAllEntities();
+        List<Lock> locks = lockService.getAllEntities();
+        Map<Long, String> studentLocksMap = new HashMap<>();
+        Map<Long, String> studentLockerNumberMap = new HashMap<>();
+
+        for (Student student : students) {
+            KeyCard keyCard = keyCardService.getEntity(student.getKeyCardId());
+            if (keyCard == null) {
+                continue;
+            }
+            studentLocksMap.put(student.getId(), keyCard.getLockIDList().toString());
+        }
+
+        for (Student student : students) {
+            KeyCard keyCard = keyCardService.getEntity(student.getKeyCardId());
+            String string = "[";
+            if (keyCard == null) {
+                continue;
+            }
+            List<Integer> numberList = new ArrayList<>();
+            for (Long id : keyCard.getLockIDList()) {
+                if (id == null) {
+                    continue;
+                }
+                numberList.add(lockService.getEntity(id).getLockerNumber());
+            }
+            studentLockerNumberMap.put(student.getId(), numberList.toString());
+        }
+
+
+
         model.addAttribute("students", students);
-        return "students";
+        model.addAttribute("keycards", keyCards);
+        model.addAttribute("locks", locks);
+        model.addAttribute("studentLocksMap", studentLocksMap);
+        model.addAttribute("studentLockerNumberMap", studentLockerNumberMap);
+
+        return "registry";
     }
+
+    @GetMapping("/locks")
+    public String locks(Model model) {
+        model.addAttribute("locks", lockService.getAllEntities());
+        return "locks";
+    }
+
+    @GetMapping("/key-cards")
+    public String keyCards(Model model) {
+        model.addAttribute("keyCards", keyCardService.getAllEntities());
+        return "key-cards";
+    }
+
+    @GetMapping("/student/{id}")
+    public String student(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("student", studentService.getEntity(id));
+        return "student";
+    }
+
+    @GetMapping("/lock/{id}")
+    public String lock(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("lock", lockService.getEntity(id));
+        return "lock";
+    }
+
+    @GetMapping("/key-card/{id}")
+    public String keyCard(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("keyCard", keyCardService.getEntity(id));
+        return "key-card";
+    }
+
+
 
 
 

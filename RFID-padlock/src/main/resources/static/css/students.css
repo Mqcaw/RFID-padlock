@@ -1,0 +1,56 @@
+ body, td, p {
+    font-family: Verdana, Helvetica, Arial;
+    font-size: 13px;
+    color: #000000;
+}
+
+body {
+    background: cornflowerblue;
+}
+
+h1 {
+    text-decoration: none;
+    font-size: 16px;
+    font-family: Verdana, Helvetica, Arial;
+    font-style: normal;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0;
+}
+
+/* Style for the main table */
+#studentTable {
+    width: 100%;
+    border-collapse: collapse;
+    display: block;
+    max-height: 400px; /* Adjust this to control the scrollable height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+}
+
+thead {
+    background-color: #e0e0e0;
+    position: sticky;
+}
+
+thead th {
+    height: 40px;
+    line-height: 40px;
+}
+
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+td {
+    text-align: center;
+}
+
+/* Alternate row colors */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

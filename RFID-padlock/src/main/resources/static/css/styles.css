@@ -1,6 +1,6 @@
 .storeuserData {behavior:url(#default#userData);}
 
-body, td, p { font-family: Verdana, Helvetica, Arial; font-size: 13px; color: #000000; }
+body, td, p { font-family: Verdana, Helvetica, Arial; font-size: 13px; color: #000000;}
 
 body { background: cornflowerblue; }
 
@@ -46,3 +46,33 @@ h1 { text-decoration: none;  font-size: 16px;  font-family: Verdana,Helvetica,Ar
 }
 
 .button {border-radius: 4px;}
+
+.table-container {
+    /*max-height: 770px; /* Set the desired height */
+    max-height: 82vh;
+    overflow-y: auto;  /* Enable vertical scrolling */
+}
+
+#entryTable tbody {
+    text-align: center;
+}
+
+#entryTable td {
+    font-size: 15px;
+}
+
+#entryTable th {
+    font-size: 20px;
+}
+
+#entryTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}
