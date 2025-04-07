@@ -92,10 +92,34 @@ public class MainController {
         return "registry";
     }
 
+    @GetMapping("/locks")
+    public String locks(Model model) {
+        model.addAttribute("locks", lockService.getAllEntities());
+        return "locks";
+    }
+
+    @GetMapping("/key-cards")
+    public String keyCards(Model model) {
+        model.addAttribute("keyCards", keyCardService.getAllEntities());
+        return "key-cards";
+    }
+
     @GetMapping("/student/{id}")
     public String student(@PathVariable("id") Long id, Model model) {
         model.addAttribute("student", studentService.getEntity(id));
         return "student";
+    }
+
+    @GetMapping("/lock/{id}")
+    public String lock(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("lock", lockService.getEntity(id));
+        return "lock";
+    }
+
+    @GetMapping("/key-card/{id}")
+    public String keyCard(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("keyCard", keyCardService.getEntity(id));
+        return "key-card";
     }
 
 

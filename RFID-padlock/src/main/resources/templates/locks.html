@@ -1,6 +1,6 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${student.name}">Assign</title>
+    <title>RFID Padlock - Locks</title>
     <meta http-equiv="content-type" content="text/html">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
@@ -9,10 +9,9 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
 
-    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{js/script.js}"></script>
 </head>
 
-<!-- TODO: form submission clears key card value -->
 
 <body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
 <table border="0" width="100%" cellspacing="5" height="100%">
@@ -47,9 +46,12 @@
             <table cellpadding="8" width="100%" height="100%">
                 <tbody>
                 <tr>
-                    <td bgcolor="white" width="15%" align="center"><a th:href="@{/registry}">[   Back   ]</a></td>
-                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b th:text="${student.name}">name</b></b></font></td>
-                    <td bgcolor="white" width="15%" align="center" th:onclick="deleteStudent([[${student.id}]])"><a th:href="@{/registry}">[   Remove Student   ]</a></td>
+                    <td bgcolor="white" width="15%"></td>
+                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Locks</b></font></td>
+                    <td bgcolor="white" width="15%" align="center">
+                        <a th:href="@{/locks}">[   Refresh   ]</a>
+                        <a th:href="@{/add-student}">[   Add Lock   ]</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -97,44 +99,42 @@
 
 
         <!-- center body cell -->
-        <td bgcolor="white">
+         <td bgcolor="white">
             <table width="100%">
                 <tbody>
                 <tr>
-                    <td align="center">
-                        <h1 th:text="${student.name}">Name</h1>
-                        <br>
-                        <table width="70%">
-                            <tbody>
+                    <!-- center body cell -->
+                    <td bgcolor="white">
+                        <div class="table-container">
+                        <table width="100%" align="center" id="entryTable">
+                            <!-- Table head content -->
+                            <thead bgcolor="#e0e0e0">
                             <tr>
+                                <th width="10%px">ID</th>
+                                <th>Locker Number</th>
+                                <th width="15%px">Key Card ID</th>
+                                <th width="15%px">Action</th>
+                            </tr>
+                            </thead>
+
+                            <!-- Table body content -->
+                            <tbody>
+                            <!-- Loop through the items and display them in the table -->
+                            <tr th:each="lock : ${locks}">
+                                <!--Lock ID -->
+                                <td th:text="${lock.id}">ID</td>
+                                <!--Locker # -->
+                                <td th:text="${lock.lockerNumber}">Locker Number</td>
+                                <!--Key Card ID -->
+                                <td th:text="${lock.keyCardId}">Key Card ID</td>
+                                <!--Action -->
                                 <td>
-                                    <form id="studentForm">
-                                        <div>
-                                            <label for="studentId">ID:</label>
-                                            <input style="background-color: #e0e0e0;" type="text" id="studentId" name="id" readonly="readonly" th:value="${student.id}" required/>
-                                        </div>
-                                        </br>
-                                        <div>
-                                            <label for="studentName">Name:</label>
-                                            <input type="text" id="studentName" name="name" th:value="${student.name}" required/>
-                                        </div>
-                                        <div>
-                                            <label for="studentGrade">Grade:</label>
-                                            <input type="text" id="studentGrade" name="grade" th:value="${student.grade}" required/>
-                                        </div>
-                                        <div>
-                                            <label for="studentKeyCardId">Key Card ID:</label>
-                                            <input type="text" id="studentKeyCardId" name="keyCardId" th:value="${student.keyCardId}" required/>
-                                        </div>
-                                        </br>
-                                        <div>
-                                            <button type="button" onclick="updateStudent()">Update Student</button>
-                                        </div>
-                                    </form>
+                                    <a th:href="@{'/lock/' + ${lock.id}}">[   View Info   ]</a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -144,8 +144,6 @@
 
         <!-- right body cell -->
         <td valign="top" bgcolor="white" width="15%">
-
-
 
         </td>
     </tr>
@@ -163,7 +161,7 @@
     <tr>
         <td colspan="3" bgcolor="white" height="1%">
             <center>
-                © 2025 Jackson Funk, Greyson Funk, <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
+                © 2025 Jackson Funk, Greyson Funk, Drake Kritzberger <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
             </center>
         </td>
     </tr>
@@ -179,11 +177,7 @@
     </tbody>
 </table>
 
-<script>
-
-
-</script>
-
 </body>
+
 
 </html>
