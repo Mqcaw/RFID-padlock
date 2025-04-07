@@ -27,14 +27,14 @@ function sortTable(colIndex) {
 //TODO: rename function
 //show key card modal function for onclick
 //should only be called by the keycard modal on student page.
-function assignKeyCard() {
-    document.getElementById('keyCardModal').style.display = 'block';
+function openEditAssignmentModal() {
+    document.getElementById('editAssignment').style.display = 'block';
 }
 
 //close key card modal function for onclick
 //should only be called by the keycard modal on student page.
-function closeKeyCardModal() {
-    document.getElementById('keyCardModal').style.display = 'none';
+function closeEditAssignmentModal() {
+    document.getElementById('editAssignment').style.display = 'none';
 }
 
 //function for update student form pn student page.
@@ -70,6 +70,7 @@ function updateStudent() {
 }
 
 function submitKeyCard(event) {
+        alert("test");
         event.preventDefault(); // Prevent default form submission
         const form = event.target;
 
