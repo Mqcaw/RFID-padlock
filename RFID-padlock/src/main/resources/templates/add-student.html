@@ -1,0 +1,190 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>New Student</title>
+    <meta http-equiv="content-type" content="text/html">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="Author" content="dnsadmin@afraid.org">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <script th:src="@{/js/script.js}"></script>
+</head>
+
+<!-- TODO: form submission clears key card value -->
+
+<body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
+<table border="0" width="100%" cellspacing="5" height="100%">
+    <tbody>
+
+
+
+    <!-- top header -->
+    <tr>
+        <td colspan="3" bgcolor="white" align="left" height="4%">
+
+            <table bgcolor="red" cellpadding="8" width="100%">
+                <tbody>
+                <tr>
+                    <td bgcolor="white">
+                        <font face="verdana, Helvetica, Arial" size="2" color="black">
+                            <b><font color="red">NOTICE!</font></b> <b>This page is still under construction</b> and currently not functional.
+                        </font>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+    </tr>
+
+
+
+    <!-- bottom header -->
+    <tr>
+        <td colspan="3" bgcolor="white" align="left" height="5%">
+            <table cellpadding="8" width="100%" height="100%">
+                <tbody>
+                <tr>
+                    <td bgcolor="white" width="15%" align="center"><a th:href="@{/registry}">[   Back   ]</a></td>
+                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b>New Student</b></b></font></td>
+                    <td bgcolor="white" width="15%" align="center"></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+
+
+
+
+
+    <!-- body row -->
+    <tr>
+        <!-- left body cell -->
+        <td bgcolor="white" valign="top" align="center" width="15%">
+            <b>Contents:</b>
+            <hr>
+
+            <table width="60%">
+                <tbody>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/}">Home</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/registry}">Registry</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/locks}">Locks</a></td>
+                    <td>]</td>
+                </tr>
+                <tr>
+                    <td>[</td>
+                    <td align="center"><a th:href="@{/key-cards}">Key Cards</a></td>
+                    <td>]</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+
+        <!-- center body cell -->
+        <td bgcolor="white">
+            <table width="100%">
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <h1>Info</h1>
+                        <br>
+                        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                        <table width="70%">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <form id="newStudentForm" target="dummyframe">
+                                        <div>
+                                            <label for="studentId">Id:</label>
+                                            <input type="text" id="studentId" name="id" required/>
+                                        </div>
+                                        </br>
+                                        <div>
+                                            <label for="studentName">Name:</label>
+                                            <input type="text" id="studentName" name="name" required/>
+                                        </div>
+                                        <div>
+                                            <label for="studentGrade">Grade:</label>
+                                            <input type="text" id="studentGrade" name="grade"required/>
+                                        </div>
+                                        <div>
+                                            <label for="studentKeyCardId">Key Card ID:</label>
+                                            <input type="text" id="studentKeyCardId" name="keyCardId"/>
+                                        </div>
+                                        </br>
+                                        <div>
+                                            <button type="button" onclick="createStudent()">Create New Student</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+
+        <!-- right body cell -->
+        <td valign="top" bgcolor="white" width="15%">
+
+
+
+        </td>
+    </tr>
+
+
+
+
+
+    <!-- top footer row -->
+    <tr>
+        <td colspan="3" align="center" bgcolor="white" height="1vh"></td>
+    </tr>
+
+    <!-- center footer row -->
+    <tr>
+        <td colspan="3" bgcolor="white" height="1%">
+            <center>
+                © 2025 Jackson Funk, Greyson Funk, <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
+            </center>
+        </td>
+    </tr>
+
+    <!-- bottom footer row -->
+    <tr>
+        <td bgcolor="white" align="center" colspan="3" height="1vh"></td>
+    </tr>
+
+
+
+
+    </tbody>
+</table>
+
+<script>
+
+
+</script>
+
+</body>
+
+</html>

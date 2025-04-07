@@ -122,6 +122,13 @@ public class MainController {
         return "key-card";
     }
 
+    @GetMapping("/add-student")
+    public String addStudent() {
+        return "add-student";
+    }
+
+
+
 
 
 
