@@ -185,6 +185,7 @@ public class ApiController {
         return student;
     }
 
+    //when updating student, removing key card id by submitting null does not remove student id from key card
     @PutMapping("/students/{id}")
     @ResponseBody
     public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student student) {
@@ -192,6 +193,7 @@ public class ApiController {
         if (student.getKeyCardId() != null) {
             studentService.assignKeyCard(student.getId(), student.getKeyCardId());
         }
+        //new code to attempt to fix above comment, not working
         if (studentService.getEntity(id) != null && studentService.getEntity(id).getKeyCardId() != null) {
             keyCardService.getEntity(studentService.getEntity(id).getKeyCardId()).setStudentId(null);
         }
