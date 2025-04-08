@@ -30,8 +30,6 @@ function updateStudent() {
     });
 }
 
-//function for update student form on student page.
-//gets the form data and makes api call to update the student
 function createStudent() {
     const formData = new FormData(document.getElementById('newStudentForm'));
 
@@ -130,4 +128,37 @@ function deleteLock(id) {
     });
 
     window.location.href = window.location.origin + "/registry";
+}
+
+
+
+
+function createKeyCard() {
+    const formData = new FormData(document.getElementById('newKeyCardForm'));
+
+    //map objects from the form data
+    const data = {};
+    formData.forEach((value, key) => {
+        if (key == "studentId") {
+            data[key] = value;
+        }
+
+    });
+
+
+    console.log(data); //debugging line to check the contents of data
+
+    // Send a POST request
+    fetch('/api/key_cards', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .catch(error => {
+        console.error('Error creating key card:', error);
+        alert('Failed to create key card');
+    });
 }

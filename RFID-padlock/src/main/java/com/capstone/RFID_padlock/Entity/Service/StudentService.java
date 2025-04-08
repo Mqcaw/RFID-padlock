@@ -1,8 +1,6 @@
 package com.capstone.RFID_padlock.Entity.Service;
 
 import com.capstone.RFID_padlock.Entity.KeyCard;
-import com.capstone.RFID_padlock.Entity.Lock;
-import com.capstone.RFID_padlock.Entity.Repository.KeyCardRepository;
 import com.capstone.RFID_padlock.Entity.Repository.StudentRepository;
 import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +67,34 @@ public class StudentService implements ServiceInterface<Student> {
         keyCard.setStudentId(studentId);
         save(student);
         keyCardService.save(keyCard);
+    }
+
+    public Student synchronize(Long studentId) {
+        Student student = getEntity(studentId);
+        if (student.getKeyCardId() != null) {
+            assignKeyCard(student.getId(), student.getKeyCardId());
+        }
+
+        return save(student);
+    }
+
+    public Student synchronize(Student student) {
+        if (student.getId() == null || getEntity(student.getId()) == null) {
+            return null;
+        }
+        if (student.getKeyCardId() != null) {
+            assignKeyCard(student.getId(), student.getKeyCardId());
+        }
+
+        return save(student);
+    }
+
+    public Student synchronizeAdd(Student student) {
+        Student newStudent = addEntity(student);
+        if (newStudent.getKeyCardId() != null) {
+            assignKeyCard(newStudent.getId(), newStudent.getKeyCardId());
+        };
+        return save(newStudent);
     }
 
     public List<Student> getStudentsWhereKeyCardIdIsNotNull() {

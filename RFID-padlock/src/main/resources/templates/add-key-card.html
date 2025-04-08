@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title th:text="${keyCard.id}">Assign</title>
+    <title>New Key Card</title>
     <meta http-equiv="content-type" content="text/html">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
@@ -47,8 +47,8 @@
                 <tbody>
                 <tr>
                     <td bgcolor="white" width="15%" align="center"><a th:href="@{/key-cards}">[   Back   ]</a></td>
-                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b th:text="${keyCard.id}">id</b></b></font></td>
-                    <td bgcolor="white" width="15%" align="center" th:onclick=""><a th:href="@{/key-cards}">[   Remove Key Card   ]</a></td>
+                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b>New Key Card</b></b></font></td>
+                    <td bgcolor="white" width="15%" align="center"></td>
                 </tr>
                 </tbody>
             </table>
@@ -101,26 +101,27 @@
                 <tbody>
                 <tr>
                     <td align="center">
-                        <h1 th:text="${keyCard.id}">ID</h1>
+                        <h1>Info</h1>
                         <br>
+                        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
                         <table width="70%">
                             <tbody>
                             <tr>
                                 <td>
-                                    <form id="keyCardForm">
+                                    <form id="newKeyCardForm" target="dummyframe">
                                         <div>
                                             <label for="keyCardId">ID:</label>
-                                            <input style="background-color: #e0e0e0;" type="text" id="keyCardId" name="id" readonly="readonly" th:value="${keyCard.id}" required/>
+                                            <input style="background-color: #e0e0e0;" type="text" id="keyCardId" name="id" readonly="readonly" th:value="auto" required/>
                                         </div>
                                         </br>
                                         <div>
                                             <label for="studentId">Student Id:</label>
-                                            <input type="text" id="studentId" name="studentId" th:value="${keyCard.studentId}" required/>
+                                            <input type="text" id="studentId" name="studentId" required/>
                                         </div>
 
                                         </br>
                                         <div>
-                                            <button type="button" onclick="updateKeyCard()">Update Key Card</button>
+                                            <button type="button" onclick="createKeyCard()">Create New Key Card</button>
                                         </div>
                                     </form>
                                 </td>

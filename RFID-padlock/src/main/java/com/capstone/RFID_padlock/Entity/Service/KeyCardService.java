@@ -3,8 +3,8 @@ package com.capstone.RFID_padlock.Entity.Service;
 import com.capstone.RFID_padlock.Entity.KeyCard;
 import com.capstone.RFID_padlock.Entity.Lock;
 import com.capstone.RFID_padlock.Entity.Repository.KeyCardRepository;
-import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +14,13 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
 
     private final KeyCardRepository keyCardRepository;
     private LockService lockService;
+    private StudentService studentService;
 
     @Autowired
-    public KeyCardService(KeyCardRepository keyCardRepository, LockService lockService) {
+    public KeyCardService(KeyCardRepository keyCardRepository, LockService lockService, @Lazy StudentService studentService) {
         this.keyCardRepository = keyCardRepository;
         this.lockService = lockService;
+        this.studentService = studentService;
     }
 
     @Override
@@ -74,6 +76,50 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
         lock.setKeyCardId(keyCardId);
         save(keyCard);
         lockService.save(lock);
+    }
+
+    public KeyCard synchronize(Long keyCardId) {
+        KeyCard keyCard = getEntity(keyCardId);
+
+        if (keyCard.getStudentId() != null) {
+            studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
+        }
+        if (keyCard.getLockIDList() != null) {
+            for (Long lockId : keyCard.getLockIDList()) {
+                addLock(keyCard.getId(), lockId);
+            }
+        }
+        return save(keyCard);
+    }
+
+    public KeyCard synchronize(KeyCard keyCard) {
+        if (keyCard.getId() == null || getEntity(keyCard.getId()) == null) {
+            return null;
+        }
+
+        if (keyCard.getStudentId() != null) {
+            studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
+        }
+        if (keyCard.getLockIDList() != null) {
+            for (Long lockId : keyCard.getLockIDList()) {
+                addLock(keyCard.getId(), lockId);
+            }
+        }
+        return save(keyCard);
+    }
+
+    public KeyCard synchronizeAdd(KeyCard keyCard) {
+        KeyCard newKeyCard = addEntity(keyCard);
+
+        if (newKeyCard.getStudentId() != null) {
+            studentService.assignKeyCard(newKeyCard.getStudentId(), newKeyCard.getId());
+        }
+        if (newKeyCard.getLockIDList() != null) {
+            for (Long lockId : newKeyCard.getLockIDList()) {
+                addLock(newKeyCard.getId(), lockId);
+            }
+        }
+        return save(newKeyCard);
     }
 
     public void resetList(Long id) {

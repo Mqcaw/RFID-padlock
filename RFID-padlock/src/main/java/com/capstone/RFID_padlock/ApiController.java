@@ -76,7 +76,7 @@ public class ApiController {
     @PostMapping("/locks")
     @ResponseBody
     public Lock createNewLock(@RequestBody Lock lock) {
-        return lockService.addEntity(lock);
+        return lockService.synchronizeAdd(lock);
     }
 
     @GetMapping("/locks/{id}")
@@ -116,7 +116,8 @@ public class ApiController {
     @PostMapping("/key_cards")
     @ResponseBody
     public KeyCard createNewKeyCard(@RequestBody KeyCard keyCard) {
-        return keyCardService.addEntity(keyCard);
+        return keyCardService.synchronizeAdd(keyCard);
+
     }
 
     @GetMapping("/key_cards/{id}")
@@ -170,7 +171,7 @@ public class ApiController {
     @PostMapping("/students")
     @ResponseBody
     public Student createNewStudent(@RequestBody Student student) {
-        return studentService.addEntity(student);
+        return studentService.synchronizeAdd(student);
     }
 
     @GetMapping("/students/{id}")
@@ -190,6 +191,9 @@ public class ApiController {
         student.setId(id);
         if (student.getKeyCardId() != null) {
             studentService.assignKeyCard(student.getId(), student.getKeyCardId());
+        }
+        if (studentService.getEntity(id) != null && studentService.getEntity(id).getKeyCardId() != null) {
+            keyCardService.getEntity(studentService.getEntity(id).getKeyCardId()).setStudentId(null);
         }
 
         return studentService.save(student);

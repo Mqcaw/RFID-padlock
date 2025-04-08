@@ -3,6 +3,7 @@ package com.capstone.RFID_padlock.Entity.Service;
 import com.capstone.RFID_padlock.Entity.Lock;
 import com.capstone.RFID_padlock.Entity.Repository.LockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +12,12 @@ import java.util.List;
 public class LockService implements ServiceInterface<Lock> {
 
     private final LockRepository lockRepository;
+    private KeyCardService keyCardService;
 
     @Autowired
-    public LockService(LockRepository repository) {
+    public LockService(LockRepository repository, @Lazy KeyCardService keyCardService) {
         this.lockRepository = repository;
+        this.keyCardService = keyCardService;
     }
 
     @Override
@@ -40,6 +43,41 @@ public class LockService implements ServiceInterface<Lock> {
     public Lock save(Lock lock) {
         return lockRepository.save(lock);
     }
+
+    public Lock synchronize(Long lockId) {
+        Lock lock = getEntity(lockId);
+        if (lock.getKeyCardId() != null) {
+            keyCardService.addLock(lock.getKeyCardId(), lock.getId());
+        } else {
+            keyCardService.getEntity(getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
+        }
+
+        return save(lock);
+    }
+
+    public Lock synchronize(Lock lock) {
+        if (lock.getKeyCardId() != null) {
+            keyCardService.addLock(lock.getKeyCardId(), lock.getId());
+        } else {
+            keyCardService.getEntity(getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
+        }
+
+        return save(lock);
+    }
+
+    public Lock synchronizeAdd(Lock lock) {
+        Lock newLock = addEntity(lock);
+
+        if (newLock.getKeyCardId() != null) {
+            keyCardService.addLock(newLock.getKeyCardId(), newLock.getId());
+        } else {
+            keyCardService.getEntity(getEntity(newLock.getId()).getKeyCardId()).removeLockId(newLock.getId());
+        }
+
+        return save(newLock);
+    }
+
+
 
     @Override
     public void delete(Lock lock) {

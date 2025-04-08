@@ -127,6 +127,12 @@ public class MainController {
         return "add-student";
     }
 
+    @GetMapping("/add-key-card")
+    public String addKeyCard(Model model) {
+        model.addAttribute("keyCard", keyCardService.getEntity(8L));
+        return "add-key-card";
+    }
+
 
 
 
