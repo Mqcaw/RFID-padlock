@@ -162,3 +162,35 @@ function createKeyCard() {
         alert('Failed to create key card');
     });
 }
+
+//function for update key card form on key card page.
+//gets the form data and makes api call to update the key card
+function updateKeyCard() {
+    const formData = new FormData(document.getElementById('keyCardForm'));
+
+    //map objects from the form data
+    const data = {};
+    formData.forEach((value, key) => {
+         data[key] = value;
+    });
+
+
+    console.log(data); //debugging line to check the contents of data
+
+    // Send a PUT request
+    fetch('/api/key_cards/' + data.id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(updatedKeyCard => {
+        window.location.href = '/key-card/' + updatedKeyCard.id;
+    })
+    .catch(error => {
+        console.error('Error updating key card:', error);
+        alert('Failed to update key card');
+    });
+}

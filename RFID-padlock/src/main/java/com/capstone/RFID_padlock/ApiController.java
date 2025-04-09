@@ -30,7 +30,7 @@ import java.util.List;
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Get
 
 //Update
-//TODO: Currently must update all fields, may add API calls to manually update specific fields as needed.
+//TODO: implement usage of the synchronize methods
 
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Put -Headers @{"Content-Type"="application/json"} -Body ('{"keyCardId":1}' | Out-String)
 //this will null or 0 all other entries other than keyCardId and id
@@ -45,9 +45,8 @@ import java.util.List;
 
 
 //TODO: add comments
-//TODO: more extensive testing, mostly when creating
-//TODO: add assign on lock and key card put mapping
-//TODO: expand access check to have the lock sync its info
+//TODO: more extensive testing, mostly when creating/updating
+//TODO: expand access check to have the lock sync its info (mabye?) idk where i was going with this
 
 @Controller
 @RequestMapping("/api")
@@ -116,6 +115,8 @@ public class ApiController {
     @PostMapping("/key_cards")
     @ResponseBody
     public KeyCard createNewKeyCard(@RequestBody KeyCard keyCard) {
+        //if a reference id gets defined in the new student, it will synchronize
+        //see the synchronizeAdd method for more detail
         return keyCardService.synchronizeAdd(keyCard);
 
     }
@@ -134,12 +135,23 @@ public class ApiController {
     @PutMapping("/key_cards/{id}")
     @ResponseBody
     public KeyCard updateKeyCard(@PathVariable("id") Long id, @RequestBody KeyCard keyCard) {
+        //fail-safe to make sure the key card entity defined has the correct id.
+        //###may be removable
         keyCard.setId(id);
+
+        //checks the current instance of the key card (the new updated values), if it has a student id defined
+        //this check will run even if the student value defined is the same as before the update. this doesn't matter.
         if (keyCard.getStudentId() != null) {
+            //assigns/synchronizes ids across the new refrenced student, see function for more detail
             studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
         }
+
+        //###may be able too/should replace with synchronize method in future
+        //checks the current instance of the key card (the new updated values), if it has a lock list defined
         if (keyCard.getLockIDList() != null) {
+            //loop through all locks
             for (Long lockId : keyCard.getLockIDList()) {
+                //adds lock to the key card
                 keyCardService.addLock(keyCard.getId(), lockId);
             }
         }
@@ -202,6 +214,8 @@ public class ApiController {
             keyCardService.getEntity(studentService.getEntity(id).getKeyCardId()).setStudentId(null);
         }
 
+
+        //###may be able too/should replace with synchronize method in future
         //checks the current instance of the student (the new updated values), if it has a key card id defined
         //this check will run even if the key card value defined is the same as before the update. this doesn't matter.
         if (student.getKeyCardId() != null) {

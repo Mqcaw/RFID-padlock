@@ -109,16 +109,27 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
     }
 
     public KeyCard synchronizeAdd(KeyCard keyCard) {
+        //adds new key card entity to the database based on the student param
         KeyCard newKeyCard = addEntity(keyCard);
 
+
+        //###may be able to replace with synchronize method
+        //if the key card has a student id declared it will assign the student to the key card
         if (newKeyCard.getStudentId() != null) {
+            //this function need the key card in the database for assignment, which is why it runs after creation of the new key card
             studentService.assignKeyCard(newKeyCard.getStudentId(), newKeyCard.getId());
         }
+        //at the current state, a key card will not get created with locks defined from the website
+        //however this is needed for command line creation were locks can be defined
+        //if a lock list is defined it will loop through all locks
         if (newKeyCard.getLockIDList() != null) {
             for (Long lockId : newKeyCard.getLockIDList()) {
+                //adds lock to the key card
+                //this is an assignment method similar to studentService.assignKeyCard();
                 addLock(newKeyCard.getId(), lockId);
             }
         }
+        //saves
         return save(newKeyCard);
     }
 

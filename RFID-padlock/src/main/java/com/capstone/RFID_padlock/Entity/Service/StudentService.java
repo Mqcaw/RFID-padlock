@@ -109,8 +109,8 @@ public class StudentService implements ServiceInterface<Student> {
         Student newStudent = addEntity(student);
 
         //if the student has a key card id declared it will assign the key card to the student
-        //this function need the student in the database for assignment, which is why it runs after creation of the new student
         if (newStudent.getKeyCardId() != null) {
+            //this function need the student in the database for assignment, which is why it runs after creation of the new student
             assignKeyCard(newStudent.getId(), newStudent.getKeyCardId());
         }
 
