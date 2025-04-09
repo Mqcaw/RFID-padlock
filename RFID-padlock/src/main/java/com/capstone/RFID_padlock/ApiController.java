@@ -171,6 +171,8 @@ public class ApiController {
     @PostMapping("/students")
     @ResponseBody
     public Student createNewStudent(@RequestBody Student student) {
+        //if a reference id gets defined in the new student, it will synchronize
+        //see the synchronizeAdd method for more detail
         return studentService.synchronizeAdd(student);
     }
 
@@ -178,26 +180,37 @@ public class ApiController {
     @ResponseBody
     public Student getStudent(@PathVariable("id") Long id) {
         Student student = studentService.getEntity(id);
-
         if (student == null) {
             return null;
         }
         return student;
     }
 
-    //when updating student, removing key card id by submitting null does not remove student id from key card
     @PutMapping("/students/{id}")
     @ResponseBody
     public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student student) {
+        //fail-safe to make sure the student entity defined has the correct id.
+        //###may be removable
         student.setId(id);
-        if (student.getKeyCardId() != null) {
-            studentService.assignKeyCard(student.getId(), student.getKeyCardId());
-        }
-        //new code to attempt to fix above comment, not working
+
+        //a null value can be used to unassign the key card.
+        //this function checks if the student being edited exists already in the database and if that student has a key card id assigned
+        //the check for an existing key card id differentiates the null from being a normal null to representing a clear.
         if (studentService.getEntity(id) != null && studentService.getEntity(id).getKeyCardId() != null) {
+            //this line will null student id on the key card to synchronize the clear.
+            //###may not be safe?/should add keyCardService.save()?
             keyCardService.getEntity(studentService.getEntity(id).getKeyCardId()).setStudentId(null);
         }
 
+        //checks the current instance of the student (the new updated values), if it has a key card id defined
+        //this check will run even if the key card value defined is the same as before the update. this doesn't matter.
+        if (student.getKeyCardId() != null) {
+            //assigns/synchronizes ids across the new refrenced key card, see function for more detail
+            studentService.assignKeyCard(student.getId(), student.getKeyCardId());
+        }
+
+        //saves the student to the database.
+        //not void in-case the new student needs to be referenced.
         return studentService.save(student);
     }
 
