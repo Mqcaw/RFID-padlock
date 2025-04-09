@@ -21,6 +21,7 @@ import java.util.List;
 
 //Create
 //TODO: adding new entry does not fill in gaps in id
+//TODO: add lock page/functionality
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"lockerNumber":234}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":6700, "name":"Jackson Funk", "grade":12}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{}' | Out-String)
@@ -31,6 +32,7 @@ import java.util.List;
 
 //Update
 //TODO: implement usage of the synchronize methods
+//TODO: lock sync on update and create
 
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Put -Headers @{"Content-Type"="application/json"} -Body ('{"keyCardId":1}' | Out-String)
 //this will null or 0 all other entries other than keyCardId and id
