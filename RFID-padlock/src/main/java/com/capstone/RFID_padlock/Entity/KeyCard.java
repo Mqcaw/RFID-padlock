@@ -49,17 +49,18 @@ public class KeyCard {
         this.lockIDList = lockIDList;
     }
 
-    public Long addLockId(Long lockID) {
-        lockIDList.add(lockID);
-        return lockID;
+    public KeyCard addLockId(Long lockID) {
+        this.lockIDList.add(lockID);
+        return this;
     }
 
     public void removeLockId(Long id) {
         lockIDList.remove(id);
     }
 
-    public void resetList() {
-        lockIDList = new ArrayList<>();
+    public KeyCard resetList() {
+        this.setLockID(new ArrayList<>());
+        return this;
     }
 
 

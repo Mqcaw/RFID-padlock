@@ -46,16 +46,14 @@ public class LockService implements ServiceInterface<Lock> {
 
     public Lock synchronize(Long lockId) {
         Lock lock = getEntity(lockId);
-        if (lock.getKeyCardId() != null) {
-            keyCardService.addLock(lock.getKeyCardId(), lock.getId());
-        } else {
-            keyCardService.getEntity(getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
-        }
-
-        return save(lock);
+        return synchronize(lock);
     }
 
     public Lock synchronize(Lock lock) {
+        if (lock.getId() == null || getEntity(lock.getId()) == null) {
+            return null;
+        }
+
         if (lock.getKeyCardId() != null) {
             keyCardService.addLock(lock.getKeyCardId(), lock.getId());
         } else {
@@ -66,14 +64,16 @@ public class LockService implements ServiceInterface<Lock> {
     }
 
     public Lock synchronizeAdd(Lock lock) {
+        //adds new lock entity to the database based on the lock param
         Lock newLock = addEntity(lock);
 
+        //###may be able to replace with synchronize method
+        //if the lock has a key card id declared it will assign the key card to the lock
         if (newLock.getKeyCardId() != null) {
+            //see addLock() method for more detail
             keyCardService.addLock(newLock.getKeyCardId(), newLock.getId());
-        } else {
-            keyCardService.getEntity(getEntity(newLock.getId()).getKeyCardId()).removeLockId(newLock.getId());
         }
-
+        //saves
         return save(newLock);
     }
 

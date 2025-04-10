@@ -48,7 +48,7 @@
                 <tr>
                     <td bgcolor="white" width="15%" align="center"><a th:href="@{/key-cards}">[   Back   ]</a></td>
                     <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b th:text="${keyCard.id}">id</b></b></font></td>
-                    <td bgcolor="white" width="15%" align="center" th:onclick=""><a th:href="@{/key-cards}">[   Remove Key Card   ]</a></td>
+                    <td bgcolor="white" width="15%" align="center" th:onclick="deleteKeyCard([[${keyCard.id}]])"><a th:href="@{/key-cards}">[   Remove Key Card   ]</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -117,12 +117,16 @@
                                             <label for="studentId">Student Id:</label>
                                             <input type="text" id="studentId" name="studentId" th:value="${keyCard.studentId}" required/>
                                         </div>
+                                        <div>
+                                            <p>Locks: <a th:text="${keyCard.lockIDList}">null</a></p>
+                                        </div>
 
                                         </br>
                                         <div>
                                             <button type="button" onclick="updateKeyCard()">Update Key Card</button>
                                         </div>
                                     </form>
+                                    <button type="button" th:onclick="clearKeyCardList([[${keyCard.id}]])">Clear All Locks</button>
                                 </td>
                             </tr>
                             </tbody>

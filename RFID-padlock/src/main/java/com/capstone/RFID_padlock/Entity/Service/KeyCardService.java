@@ -81,15 +81,7 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
     public KeyCard synchronize(Long keyCardId) {
         KeyCard keyCard = getEntity(keyCardId);
 
-        if (keyCard.getStudentId() != null) {
-            studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
-        }
-        if (keyCard.getLockIDList() != null) {
-            for (Long lockId : keyCard.getLockIDList()) {
-                addLock(keyCard.getId(), lockId);
-            }
-        }
-        return save(keyCard);
+        return synchronize(keyCard);
     }
 
     public KeyCard synchronize(KeyCard keyCard) {
@@ -97,11 +89,18 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
             return null;
         }
 
+        //checks the current instance of the key card (the new updated values), if it has a student id defined
+        //this check will run even if the student value defined is the same as before the update. this doesn't matter.
         if (keyCard.getStudentId() != null) {
+            //assigns/synchronizes ids across the new refrenced student, see function for more detail
             studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
         }
+
+        //checks the current instance of the key card (the new updated values), if it has a lock list defined
         if (keyCard.getLockIDList() != null) {
+            //loop through all locks
             for (Long lockId : keyCard.getLockIDList()) {
+                //adds lock to the key card
                 addLock(keyCard.getId(), lockId);
             }
         }
@@ -109,32 +108,14 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
     }
 
     public KeyCard synchronizeAdd(KeyCard keyCard) {
-        //adds new key card entity to the database based on the student param
+        //adds new key card entity to the database based on the key card param
         KeyCard newKeyCard = addEntity(keyCard);
 
-
-        //###may be able to replace with synchronize method
-        //if the key card has a student id declared it will assign the student to the key card
-        if (newKeyCard.getStudentId() != null) {
-            //this function need the key card in the database for assignment, which is why it runs after creation of the new key card
-            studentService.assignKeyCard(newKeyCard.getStudentId(), newKeyCard.getId());
-        }
-        //at the current state, a key card will not get created with locks defined from the website
-        //however this is needed for command line creation were locks can be defined
-        //if a lock list is defined it will loop through all locks
-        if (newKeyCard.getLockIDList() != null) {
-            for (Long lockId : newKeyCard.getLockIDList()) {
-                //adds lock to the key card
-                //this is an assignment method similar to studentService.assignKeyCard();
-                addLock(newKeyCard.getId(), lockId);
-            }
-        }
-        //saves
-        return save(newKeyCard);
+        return synchronize(newKeyCard);
     }
 
-    public void resetList(Long id) {
-        getEntity(id).resetList();
+    public KeyCard resetList(Long id) {
+        return getEntity(id).resetList();
     }
 
 

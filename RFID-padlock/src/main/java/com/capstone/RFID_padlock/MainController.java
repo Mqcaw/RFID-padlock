@@ -128,9 +128,13 @@ public class MainController {
     }
 
     @GetMapping("/add-key-card")
-    public String addKeyCard(Model model) {
-        model.addAttribute("keyCard", keyCardService.getEntity(8L));
+    public String addKeyCard() {
         return "add-key-card";
+    }
+
+    @GetMapping("/add-lock")
+    public String addLock() {
+        return "add-lock";
     }
 
 

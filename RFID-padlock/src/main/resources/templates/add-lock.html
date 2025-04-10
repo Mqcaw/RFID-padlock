@@ -1,6 +1,6 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>RFID Padlock - Locks</title>
+    <title>New Key Card</title>
     <meta http-equiv="content-type" content="text/html">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
 
-    <script th:src="@{js/script.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
 </head>
 
 
@@ -46,12 +46,9 @@
             <table cellpadding="8" width="100%" height="100%">
                 <tbody>
                 <tr>
-                    <td bgcolor="white" width="15%"></td>
-                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Locks</b></font></td>
-                    <td bgcolor="white" width="15%" align="center">
-                        <a th:href="@{/locks}">[   Refresh   ]</a>
-                        <a th:href="@{/add-lock}">[   Add Lock   ]</a>
-                    </td>
+                    <td bgcolor="white" width="15%" align="center"><a th:href="@{/locks}">[   Back   ]</a></td>
+                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b>New Lock</b></b></font></td>
+                    <td bgcolor="white" width="15%" align="center"></td>
                 </tr>
                 </tbody>
             </table>
@@ -99,42 +96,42 @@
 
 
         <!-- center body cell -->
-         <td bgcolor="white">
+        <td bgcolor="white">
             <table width="100%">
                 <tbody>
                 <tr>
-                    <!-- center body cell -->
-                    <td bgcolor="white">
-                        <div class="table-container">
-                        <table width="100%" align="center" id="entryTable">
-                            <!-- Table head content -->
-                            <thead bgcolor="#e0e0e0">
-                            <tr>
-                                <th width="10%px">ID</th>
-                                <th>Locker Number</th>
-                                <th width="15%px">Key Card ID</th>
-                                <th width="15%px">Action</th>
-                            </tr>
-                            </thead>
-
-                            <!-- Table body content -->
+                    <td align="center">
+                        <h1>Info</h1>
+                        <br>
+                        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                        <table width="70%">
                             <tbody>
-                            <!-- Loop through the items and display them in the table -->
-                            <tr th:each="lock : ${locks}">
-                                <!--Lock ID -->
-                                <td th:text="${lock.id}">ID</td>
-                                <!--Locker # -->
-                                <td th:text="${lock.lockerNumber}">Locker Number</td>
-                                <!--Key Card ID -->
-                                <td th:text="${lock.keyCardId}">Key Card ID</td>
-                                <!--Action -->
+                            <tr>
                                 <td>
-                                    <a th:href="@{'/lock/' + ${lock.id}}">[   View Info   ]</a>
+                                    <form id="newLockForm" target="dummyframe">
+                                        <div>
+                                            <label for="lockId">ID:</label>
+                                            <input style="background-color: #e0e0e0;" type="text" id="lockId" name="id" readonly="readonly" th:value="auto" required/>
+                                        </div>
+                                        </br>
+                                        <div>
+                                            <label for="lockerNumber">Locker Number:</label>
+                                            <input type="text" id="lockerNumber" name="lockerNumber" required/>
+                                        </div>
+                                        <div>
+                                            <label for="keyCardId">Key Card Id:</label>
+                                            <input type="text" id="keyCardId" name="keyCardId" required/>
+                                        </div>
+
+                                        </br>
+                                        <div>
+                                            <button type="button" onclick="createLock()">Create New Lock</button>
+                                        </div>
+                                    </form>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -144,6 +141,8 @@
 
         <!-- right body cell -->
         <td valign="top" bgcolor="white" width="15%">
+
+
 
         </td>
     </tr>
@@ -161,7 +160,7 @@
     <tr>
         <td colspan="3" bgcolor="white" height="1%">
             <center>
-                © 2025 Jackson Funk, Greyson Funk, Drake Kritzberger <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
+                © 2025 Jackson Funk, Greyson Funk, <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
             </center>
         </td>
     </tr>
@@ -177,7 +176,11 @@
     </tbody>
 </table>
 
-</body>
+<script>
 
+
+</script>
+
+</body>
 
 </html>

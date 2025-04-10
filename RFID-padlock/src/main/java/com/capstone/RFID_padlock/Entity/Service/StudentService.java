@@ -78,14 +78,7 @@ public class StudentService implements ServiceInterface<Student> {
         //define student from id
         Student student = getEntity(studentId);
 
-        //if the student has a key card id declared it will assign the key card to the student
-        if (student.getKeyCardId() != null) {
-            //see assign method for more detail
-            assignKeyCard(student.getId(), student.getKeyCardId());
-        }
-
-        //saves
-        return save(student);
+        return synchronize(student);
     }
 
     public Student synchronize(Student student) {
@@ -94,11 +87,25 @@ public class StudentService implements ServiceInterface<Student> {
             return null;
         }
 
-        //if the student has a key card id declared it will assign the key card to the student
+        //a null value can be used to unassign the key card.
+        //this function checks if the student being edited exists already in the database and if that student has a key card id assigned
+        //the check for an existing key card id differentiates the null from being a normal null to representing a clear.
+        if (getEntity(student.getId()) != null && getEntity(student.getId()).getKeyCardId() != null) {
+            //this line will null student id on the key card to synchronize the clear.
+            //###may not be safe?/should add keyCardService.save()?
+            keyCardService.getEntity(getEntity(student.getId()).getKeyCardId()).setStudentId(null);
+        }
+
+
+        //checks the current instance of the student (the new updated values), if it has a key card id defined
+        //this check will run even if the key card value defined is the same as before the update. this doesn't matter.
         if (student.getKeyCardId() != null) {
-            //see assign method for more detail
+            //assigns/synchronizes ids across the new refrenced key card, see function for more detail
             assignKeyCard(student.getId(), student.getKeyCardId());
         }
+
+        //saves the student to the database.
+        //not void in-case the new student needs to be referenced.
 
         //saves
         return save(student);

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -20,8 +19,6 @@ import java.util.List;
 //CRUD commands for reference, Windows PowerShell
 
 //Create
-//TODO: adding new entry does not fill in gaps in id
-//TODO: add lock page/functionality
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"lockerNumber":234}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":6700, "name":"Jackson Funk", "grade":12}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{}' | Out-String)
@@ -31,14 +28,16 @@ import java.util.List;
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Get
 
 //Update
-//TODO: implement usage of the synchronize methods
-//TODO: lock sync on update and create
 
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Put -Headers @{"Content-Type"="application/json"} -Body ('{"keyCardId":1}' | Out-String)
 //this will null or 0 all other entries other than keyCardId and id
 
 //Delete
 //TODO: fix delete - see key card implementation for example on how to fix
+//TODO: make deleting an entity unlink from assigned entities
+//TODO: make reset list synchronous
+//Extra Delete
+//Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards/8/reset_list" -Method Post
 
 //Assign
 //Invoke-RestMethod -Uri "http://localhost:8081/api/assign/lock?lockId=2&keyCardId=1" -Method Post
@@ -48,7 +47,7 @@ import java.util.List;
 
 //TODO: add comments
 //TODO: more extensive testing, mostly when creating/updating
-//TODO: expand access check to have the lock sync its info (mabye?) idk where i was going with this
+//TODO: expand access check to have the lock sync its info (maybe?), note: idk where i was going with this
 
 @Controller
 @RequestMapping("/api")
@@ -83,22 +82,15 @@ public class ApiController {
     @GetMapping("/locks/{id}")
     @ResponseBody
     public Lock getLock(@PathVariable("id") Long id) {
-        Lock lock = lockService.getEntity(id);
-
-        return lock;
+        return lockService.getEntity(id);
     }
 
     @PutMapping("/locks/{id}")
     @ResponseBody
     public Lock updateLock(@PathVariable("id") Long id, @RequestBody Lock lock) {
         lock.setId(id);
-        if (lock.getKeyCardId() != null) {
-            keyCardService.addLock(lock.getKeyCardId(), lock.getId());
-        } else {
-            keyCardService.getEntity(lockService.getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
-        }
 
-        return lockService.save(lock);
+        return lockService.synchronize(lock);
     }
 
     @DeleteMapping("/locks/{id}")
@@ -126,38 +118,19 @@ public class ApiController {
     @GetMapping("/key_cards/{id}")
     @ResponseBody
     public KeyCard getKeyCard(@PathVariable("id") Long id) {
-        KeyCard keyCard = keyCardService.getEntity(id);
-
-        if (keyCard == null) {
-            return null;
-        }
-        return keyCard;
+        return keyCardService.getEntity(id);
     }
 
+    //TODO: updating key card with null student Id clears lock list, lock still holds the key card reference
+    //TODO: assigning a key card to a student with key card already defined doesn't unlink the previous key card
     @PutMapping("/key_cards/{id}")
     @ResponseBody
     public KeyCard updateKeyCard(@PathVariable("id") Long id, @RequestBody KeyCard keyCard) {
         //fail-safe to make sure the key card entity defined has the correct id.
-        //###may be removable
+        //###might be removable
         keyCard.setId(id);
 
-        //checks the current instance of the key card (the new updated values), if it has a student id defined
-        //this check will run even if the student value defined is the same as before the update. this doesn't matter.
-        if (keyCard.getStudentId() != null) {
-            //assigns/synchronizes ids across the new refrenced student, see function for more detail
-            studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
-        }
-
-        //###may be able too/should replace with synchronize method in future
-        //checks the current instance of the key card (the new updated values), if it has a lock list defined
-        if (keyCard.getLockIDList() != null) {
-            //loop through all locks
-            for (Long lockId : keyCard.getLockIDList()) {
-                //adds lock to the key card
-                keyCardService.addLock(keyCard.getId(), lockId);
-            }
-        }
-        return keyCardService.save(keyCard);
+        return keyCardService.synchronize(keyCard);
     }
 
     @DeleteMapping("/key_cards/{id}")
@@ -170,7 +143,7 @@ public class ApiController {
     @PostMapping("/key_cards/{id}/reset_list")
     @ResponseBody
     public void resetKeyCardList(@PathVariable("id") Long id) {
-        keyCardService.resetList(id);
+        keyCardService.save(keyCardService.resetList(id));
     }
 
 
@@ -193,11 +166,7 @@ public class ApiController {
     @GetMapping("/students/{id}")
     @ResponseBody
     public Student getStudent(@PathVariable("id") Long id) {
-        Student student = studentService.getEntity(id);
-        if (student == null) {
-            return null;
-        }
-        return student;
+        return studentService.getEntity(id);
     }
 
     @PutMapping("/students/{id}")
@@ -207,27 +176,7 @@ public class ApiController {
         //###may be removable
         student.setId(id);
 
-        //a null value can be used to unassign the key card.
-        //this function checks if the student being edited exists already in the database and if that student has a key card id assigned
-        //the check for an existing key card id differentiates the null from being a normal null to representing a clear.
-        if (studentService.getEntity(id) != null && studentService.getEntity(id).getKeyCardId() != null) {
-            //this line will null student id on the key card to synchronize the clear.
-            //###may not be safe?/should add keyCardService.save()?
-            keyCardService.getEntity(studentService.getEntity(id).getKeyCardId()).setStudentId(null);
-        }
-
-
-        //###may be able too/should replace with synchronize method in future
-        //checks the current instance of the student (the new updated values), if it has a key card id defined
-        //this check will run even if the key card value defined is the same as before the update. this doesn't matter.
-        if (student.getKeyCardId() != null) {
-            //assigns/synchronizes ids across the new refrenced key card, see function for more detail
-            studentService.assignKeyCard(student.getId(), student.getKeyCardId());
-        }
-
-        //saves the student to the database.
-        //not void in-case the new student needs to be referenced.
-        return studentService.save(student);
+        return studentService.synchronize(student);
     }
 
     @DeleteMapping("/students/{id}")
@@ -245,8 +194,7 @@ public class ApiController {
     public boolean accessGranted(@PathVariable("id") Long id) {
         Lock lock = lockService.getEntity(id);
         if (lock.getKeyCardId() == null) return false;
-        if (keyCardService.getEntity(lock.getKeyCardId()).getStudentId() == null) return false;
-        return true;
+        return keyCardService.getEntity(lock.getKeyCardId()).getStudentId() != null;
     }
 
     @PostMapping("/assign/lock")
