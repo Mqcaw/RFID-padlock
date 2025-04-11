@@ -33,8 +33,6 @@ import java.util.List;
 //this will null or 0 all other entries other than keyCardId and id
 
 //Delete
-//TODO: fix delete - see key card implementation for example on how to fix
-//TODO: make deleting an entity unlink from assigned entities
 //TODO: make reset list synchronous
 
 //Extra Delete
@@ -47,7 +45,7 @@ import java.util.List;
 
 
 //TODO: add comments
-//TODO: more extensive testing, mostly when creating/updating
+//TODO: more testing!
 
 @Controller
 @RequestMapping("/api")
@@ -94,8 +92,9 @@ public class ApiController {
     }
 
     @DeleteMapping("/locks/{id}")
-    public void deleteLock(@PathVariable("id") Long id) {
-        lockService.delete(id);
+    public List<Lock> deleteLock(@PathVariable("id") Long id) {
+        lockService.synchronizeDelete(id);
+        return lockService.getAllEntities();
     }
 
     //#################KEYCARD API###################
@@ -127,7 +126,6 @@ public class ApiController {
         //fail-safe to make sure the key card entity defined has the correct id.
         //?###might be removable
         keyCard.setId(id);
-        System.out.println("########################" + keyCard.getLockIDList());
 
         return keyCardService.synchronize(keyCard);
     }
@@ -135,7 +133,7 @@ public class ApiController {
     @DeleteMapping("/key_cards/{id}")
     @ResponseBody
     public List<KeyCard> deleteKeyCard(@PathVariable("id") Long id) {
-        keyCardService.delete(id);
+        keyCardService.synchronizeDelete(id);
         return keyCardService.getAllEntities();
     }
 
@@ -179,8 +177,9 @@ public class ApiController {
     }
 
     @DeleteMapping("/students/{id}")
-    public void deleteStudent(@PathVariable("id") Long id) {
-        studentService.delete(id);
+    public List<Student> deleteStudent(@PathVariable("id") Long id) {
+        studentService.synchronizeDelete(id);
+        return studentService.getAllEntities();
     }
 
 

@@ -88,7 +88,6 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
         if (keyCard.getId() == null || getEntity(keyCard.getId()) == null) {
             return null;
         }
-        System.out.println(keyCard.getLockIDList() + "####################################");
 
         //checks the current instance of the key card (the new updated values), if it has a student id defined
         //this check will run even if the student value defined is the same as before the update. this doesn't matter.
@@ -113,6 +112,19 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
         KeyCard newKeyCard = addEntity(keyCard);
 
         return synchronize(newKeyCard);
+    }
+
+    public void synchronizeDelete(Long id) {
+        KeyCard keyCard = getEntity(id);
+        if (keyCard.getStudentId() != null) {
+            studentService.getEntity(keyCard.getStudentId()).setKeyCardId(null);
+        }
+        for (Long lockId : keyCard.getLockIDList()) {
+            if (lockService.getEntity(lockId) != null) {
+                lockService.getEntity(lockId).setKeyCardId(null);
+            }
+        }
+        delete(keyCard);
     }
 
     public KeyCard resetList(Long id) {

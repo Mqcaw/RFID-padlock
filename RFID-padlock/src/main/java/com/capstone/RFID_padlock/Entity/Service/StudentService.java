@@ -125,6 +125,14 @@ public class StudentService implements ServiceInterface<Student> {
         return save(newStudent);
     }
 
+    public void synchronizeDelete(Long id) {
+        Student student = getEntity(id);
+        if (student.getKeyCardId() != null) {
+            keyCardService.getEntity(student.getKeyCardId()).setStudentId(null);
+        }
+        delete(student);
+    }
+
     public List<Student> getStudentsWhereKeyCardIdIsNotNull() {
         return studentRepository.findByKeyCardIdIsNotNull();
     }

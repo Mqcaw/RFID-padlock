@@ -76,6 +76,13 @@ public class LockService implements ServiceInterface<Lock> {
         //saves
         return save(newLock);
     }
+    public void synchronizeDelete(Long id) {
+        Lock lock = getEntity(id);
+        if (lock.getKeyCardId() != null) {
+            keyCardService.getEntity(lock.getKeyCardId()).removeLockId(lock.getId());
+        }
+        delete(lock);
+    }
 
 
 
