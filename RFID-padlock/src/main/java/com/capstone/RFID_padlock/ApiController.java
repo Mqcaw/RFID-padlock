@@ -63,7 +63,6 @@ public class ApiController {
         this.studentService = studentService;
     }
 
-
     //#################LOCK API###################
     @GetMapping("/locks")
     @ResponseBody
