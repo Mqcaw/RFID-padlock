@@ -195,14 +195,21 @@ function createKeyCard() {
 
 //function for update key card form on key card page.
 //gets the form data and makes api call to update the key card
-function updateKeyCard() {
+function updateKeyCard(lockList) {
     const formData = new FormData(document.getElementById('keyCardForm'));
 
     //map objects from the form data
     const data = {};
     formData.forEach((value, key) => {
-         data[key] = value;
+         if (key == "id" || key == "studentId") {
+            if (value == "") {
+                data[key] = null;
+            } else {
+                data[key] = Number(value);
+            }
+         }
     });
+    data["lockIDList"] =  lockList;
 
 
     console.log(data); //debugging line to check the contents of data
@@ -217,7 +224,7 @@ function updateKeyCard() {
     })
     .then(response => response.json())
     .then(updatedKeyCard => {
-        window.location.href = '/key-card/' + updatedKeyCard.id;
+        window.location.href = '/key-card/' + data["id"];
     })
     .catch(error => {
         console.error('Error updating key card:', error);

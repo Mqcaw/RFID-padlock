@@ -67,7 +67,7 @@ public class LockService implements ServiceInterface<Lock> {
         //adds new lock entity to the database based on the lock param
         Lock newLock = addEntity(lock);
 
-        //###may be able to replace with synchronize method
+        //?###may be able to replace with synchronize method
         //if the lock has a key card id declared it will assign the key card to the lock
         if (newLock.getKeyCardId() != null) {
             //see addLock() method for more detail

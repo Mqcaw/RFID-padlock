@@ -88,6 +88,7 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
         if (keyCard.getId() == null || getEntity(keyCard.getId()) == null) {
             return null;
         }
+        System.out.println(keyCard.getLockIDList() + "####################################");
 
         //checks the current instance of the key card (the new updated values), if it has a student id defined
         //this check will run even if the student value defined is the same as before the update. this doesn't matter.

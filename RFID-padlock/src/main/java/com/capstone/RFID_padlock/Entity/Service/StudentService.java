@@ -92,7 +92,7 @@ public class StudentService implements ServiceInterface<Student> {
         //the check for an existing key card id differentiates the null from being a normal null to representing a clear.
         if (getEntity(student.getId()) != null && getEntity(student.getId()).getKeyCardId() != null) {
             //this line will null student id on the key card to synchronize the clear.
-            //###may not be safe?/should add keyCardService.save()?
+            //?###may not be safe?/should add keyCardService.save()?
             keyCardService.getEntity(getEntity(student.getId()).getKeyCardId()).setStudentId(null);
         }
 

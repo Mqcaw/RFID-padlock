@@ -123,7 +123,7 @@
 
                                         </br>
                                         <div>
-                                            <button type="button" onclick="updateKeyCard()">Update Key Card</button>
+                                            <button type="button" th:onclick="updateKeyCard([[${keyCard.lockIDList}]])">Update Key Card</button>
                                         </div>
                                     </form>
                                     <button type="button" th:onclick="clearKeyCardList([[${keyCard.id}]])">Clear All Locks</button>

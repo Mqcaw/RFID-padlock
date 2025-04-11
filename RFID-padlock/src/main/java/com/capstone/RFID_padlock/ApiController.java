@@ -36,6 +36,7 @@ import java.util.List;
 //TODO: fix delete - see key card implementation for example on how to fix
 //TODO: make deleting an entity unlink from assigned entities
 //TODO: make reset list synchronous
+
 //Extra Delete
 //Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards/8/reset_list" -Method Post
 
@@ -47,7 +48,6 @@ import java.util.List;
 
 //TODO: add comments
 //TODO: more extensive testing, mostly when creating/updating
-//TODO: expand access check to have the lock sync its info (maybe?), note: idk where i was going with this
 
 @Controller
 @RequestMapping("/api")
@@ -121,14 +121,13 @@ public class ApiController {
         return keyCardService.getEntity(id);
     }
 
-    //TODO: updating key card with null student Id clears lock list, lock still holds the key card reference
-    //TODO: assigning a key card to a student with key card already defined doesn't unlink the previous key card
     @PutMapping("/key_cards/{id}")
     @ResponseBody
     public KeyCard updateKeyCard(@PathVariable("id") Long id, @RequestBody KeyCard keyCard) {
         //fail-safe to make sure the key card entity defined has the correct id.
-        //###might be removable
+        //?###might be removable
         keyCard.setId(id);
+        System.out.println("########################" + keyCard.getLockIDList());
 
         return keyCardService.synchronize(keyCard);
     }
@@ -173,7 +172,7 @@ public class ApiController {
     @ResponseBody
     public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student student) {
         //fail-safe to make sure the student entity defined has the correct id.
-        //###may be removable
+        //?###may be removable
         student.setId(id);
 
         return studentService.synchronize(student);
@@ -188,7 +187,7 @@ public class ApiController {
 
     //#################EXTRA API###################
 
-
+    //### expand access check to have the lock sync its info (maybe?), note: idk where I was going with this
     @PostMapping("/locks/{id}/access-check")
     @ResponseBody
     public boolean accessGranted(@PathVariable("id") Long id) {
