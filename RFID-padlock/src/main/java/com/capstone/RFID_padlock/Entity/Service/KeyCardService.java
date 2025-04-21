@@ -128,7 +128,15 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
     }
 
     public KeyCard resetList(Long id) {
-        return getEntity(id).resetList();
+        KeyCard keyCard = getEntity(id);
+        for (Long lockId : keyCard.getLockIDList()) {
+            if (lockService.getEntity(lockId) != null) {
+                lockService.getEntity(lockId).setKeyCardId(null);
+            }
+        }
+        keyCard.clearList();
+
+        return save(keyCard);
     }
 
 

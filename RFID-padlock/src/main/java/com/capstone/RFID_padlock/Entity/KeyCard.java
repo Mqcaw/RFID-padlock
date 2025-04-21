@@ -58,7 +58,7 @@ public class KeyCard {
         lockIDList.remove(id);
     }
 
-    public KeyCard resetList() {
+    public KeyCard clearList() {
         this.setLockID(new ArrayList<>());
         return this;
     }

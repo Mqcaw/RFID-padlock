@@ -33,7 +33,6 @@ import java.util.List;
 //this will null or 0 all other entries other than keyCardId and id
 
 //Delete
-//TODO: make reset list synchronous
 
 //Extra Delete
 //Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards/8/reset_list" -Method Post
