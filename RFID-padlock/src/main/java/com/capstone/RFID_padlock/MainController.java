@@ -122,6 +122,23 @@ public class MainController {
         return "key-card";
     }
 
+    @GetMapping("/add-student")
+    public String addStudent() {
+        return "add-student";
+    }
+
+    @GetMapping("/add-key-card")
+    public String addKeyCard() {
+        return "add-key-card";
+    }
+
+    @GetMapping("/add-lock")
+    public String addLock() {
+        return "add-lock";
+    }
+
+
+
 
 
 

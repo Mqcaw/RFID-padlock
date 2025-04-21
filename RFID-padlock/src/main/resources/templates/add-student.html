@@ -1,6 +1,6 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>RFID Padlock - Locks</title>
+    <title>New Student</title>
     <meta http-equiv="content-type" content="text/html">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
@@ -9,9 +9,8 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
 
-    <script th:src="@{js/script.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
 </head>
-
 
 <body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
 <table border="0" width="100%" cellspacing="5" height="100%">
@@ -46,12 +45,9 @@
             <table cellpadding="8" width="100%" height="100%">
                 <tbody>
                 <tr>
-                    <td bgcolor="white" width="15%"></td>
-                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - Locks</b></font></td>
-                    <td bgcolor="white" width="15%" align="center">
-                        <a th:href="@{/locks}">[   Refresh   ]</a>
-                        <a th:href="@{/add-lock}">[   Add Lock   ]</a>
-                    </td>
+                    <td bgcolor="white" width="15%" align="center"><a th:href="@{/registry}">[   Back   ]</a></td>
+                    <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b>New Student</b></b></font></td>
+                    <td bgcolor="white" width="15%" align="center"></td>
                 </tr>
                 </tbody>
             </table>
@@ -99,42 +95,45 @@
 
 
         <!-- center body cell -->
-         <td bgcolor="white">
+        <td bgcolor="white">
             <table width="100%">
                 <tbody>
                 <tr>
-                    <!-- center body cell -->
-                    <td bgcolor="white">
-                        <div class="table-container">
-                        <table width="100%" align="center" id="entryTable">
-                            <!-- Table head content -->
-                            <thead bgcolor="#e0e0e0">
-                            <tr>
-                                <th width="10%px">ID</th>
-                                <th>Locker Number</th>
-                                <th width="15%px">Key Card ID</th>
-                                <th width="15%px">Action</th>
-                            </tr>
-                            </thead>
-
-                            <!-- Table body content -->
+                    <td align="center">
+                        <h1>Info</h1>
+                        <br>
+                        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                        <table width="70%">
                             <tbody>
-                            <!-- Loop through the items and display them in the table -->
-                            <tr th:each="lock : ${locks}">
-                                <!--Lock ID -->
-                                <td th:text="${lock.id}">ID</td>
-                                <!--Locker # -->
-                                <td th:text="${lock.lockerNumber}">Locker Number</td>
-                                <!--Key Card ID -->
-                                <td th:text="${lock.keyCardId}">Key Card ID</td>
-                                <!--Action -->
+                            <tr>
                                 <td>
-                                    <a th:href="@{'/lock/' + ${lock.id}}">[   View Info   ]</a>
+                                    <form id="newStudentForm" target="dummyframe">
+                                        <div>
+                                            <label for="studentId">Id:</label>
+                                            <input type="text" id="studentId" name="id" required/>
+                                        </div>
+                                        </br>
+                                        <div>
+                                            <label for="studentName">Name:</label>
+                                            <input type="text" id="studentName" name="name" required/>
+                                        </div>
+                                        <div>
+                                            <label for="studentGrade">Grade:</label>
+                                            <input type="text" id="studentGrade" name="grade"required/>
+                                        </div>
+                                        <div>
+                                            <label for="studentKeyCardId">Key Card ID:</label>
+                                            <input type="text" id="studentKeyCardId" name="keyCardId"/>
+                                        </div>
+                                        </br>
+                                        <div>
+                                            <button type="button" onclick="createStudent()">Create New Student</button>
+                                        </div>
+                                    </form>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -144,6 +143,8 @@
 
         <!-- right body cell -->
         <td valign="top" bgcolor="white" width="15%">
+
+
 
         </td>
     </tr>
@@ -161,7 +162,7 @@
     <tr>
         <td colspan="3" bgcolor="white" height="1%">
             <center>
-                © 2025 Jackson Funk, Greyson Funk, Drake Kritzberger <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
+                © 2025 Jackson Funk, Greyson Funk, <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
             </center>
         </td>
     </tr>
@@ -177,7 +178,11 @@
     </tbody>
 </table>
 
-</body>
+<script>
 
+
+</script>
+
+</body>
 
 </html>

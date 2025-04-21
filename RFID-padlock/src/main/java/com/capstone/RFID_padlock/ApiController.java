@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -20,7 +19,6 @@ import java.util.List;
 //CRUD commands for reference, Windows PowerShell
 
 //Create
-//TODO: adding new entry does not fill in gaps in id
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"lockerNumber":234}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/students" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{"id":6700, "name":"Jackson Funk", "grade":12}')
 //Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards" -Method Post -Headers @{"Content-Type"="application/json"} -Body ('{}' | Out-String)
@@ -30,13 +28,15 @@ import java.util.List;
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Get
 
 //Update
-//TODO: Currently must update all fields, may add API calls to manually update specific fields as needed.
 
 //Invoke-RestMethod -Uri "http://localhost:8081/api/locks/1" -Method Put -Headers @{"Content-Type"="application/json"} -Body ('{"keyCardId":1}' | Out-String)
 //this will null or 0 all other entries other than keyCardId and id
 
 //Delete
-//TODO: fix delete - see key card implementation for example on how to fix
+
+
+//Extra Delete
+//Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards/8/reset_list" -Method Post
 
 //Assign
 //Invoke-RestMethod -Uri "http://localhost:8081/api/assign/lock?lockId=2&keyCardId=1" -Method Post
@@ -45,9 +45,7 @@ import java.util.List;
 
 
 //TODO: add comments
-//TODO: more extensive testing, mostly when creating
-//TODO: add assign on lock and key card put mapping
-//TODO: expand access check to have the lock sync its info
+//TODO: more testing!
 
 @Controller
 @RequestMapping("/api")
@@ -65,7 +63,6 @@ public class ApiController {
         this.studentService = studentService;
     }
 
-
     //#################LOCK API###################
     @GetMapping("/locks")
     @ResponseBody
@@ -76,33 +73,28 @@ public class ApiController {
     @PostMapping("/locks")
     @ResponseBody
     public Lock createNewLock(@RequestBody Lock lock) {
-        return lockService.addEntity(lock);
+        return lockService.synchronizeAdd(lock);
     }
 
     @GetMapping("/locks/{id}")
     @ResponseBody
     public Lock getLock(@PathVariable("id") Long id) {
-        Lock lock = lockService.getEntity(id);
-
-        return lock;
+        return lockService.getEntity(id);
     }
 
     @PutMapping("/locks/{id}")
     @ResponseBody
     public Lock updateLock(@PathVariable("id") Long id, @RequestBody Lock lock) {
         lock.setId(id);
-        if (lock.getKeyCardId() != null) {
-            keyCardService.addLock(lock.getKeyCardId(), lock.getId());
-        } else {
-            keyCardService.getEntity(lockService.getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
-        }
 
-        return lockService.save(lock);
+        return lockService.synchronize(lock);
     }
 
     @DeleteMapping("/locks/{id}")
-    public void deleteLock(@PathVariable("id") Long id) {
-        lockService.delete(id);
+    @ResponseBody
+    public List<Lock> deleteLock(@PathVariable("id") Long id) {
+        lockService.synchronizeDelete(id);
+        return lockService.getAllEntities();
     }
 
     //#################KEYCARD API###################
@@ -116,46 +108,39 @@ public class ApiController {
     @PostMapping("/key_cards")
     @ResponseBody
     public KeyCard createNewKeyCard(@RequestBody KeyCard keyCard) {
-        return keyCardService.addEntity(keyCard);
+        //if a reference id gets defined in the new student, it will synchronize
+        //see the synchronizeAdd method for more detail
+        return keyCardService.synchronizeAdd(keyCard);
+
     }
 
     @GetMapping("/key_cards/{id}")
     @ResponseBody
     public KeyCard getKeyCard(@PathVariable("id") Long id) {
-        KeyCard keyCard = keyCardService.getEntity(id);
-
-        if (keyCard == null) {
-            return null;
-        }
-        return keyCard;
+        return keyCardService.getEntity(id);
     }
 
     @PutMapping("/key_cards/{id}")
     @ResponseBody
     public KeyCard updateKeyCard(@PathVariable("id") Long id, @RequestBody KeyCard keyCard) {
+        //fail-safe to make sure the key card entity defined has the correct id.
+        //?###might be removable
         keyCard.setId(id);
-        if (keyCard.getStudentId() != null) {
-            studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
-        }
-        if (keyCard.getLockIDList() != null) {
-            for (Long lockId : keyCard.getLockIDList()) {
-                keyCardService.addLock(keyCard.getId(), lockId);
-            }
-        }
-        return keyCardService.save(keyCard);
+
+        return keyCardService.synchronize(keyCard);
     }
 
     @DeleteMapping("/key_cards/{id}")
     @ResponseBody
     public List<KeyCard> deleteKeyCard(@PathVariable("id") Long id) {
-        keyCardService.delete(id);
+        keyCardService.synchronizeDelete(id);
         return keyCardService.getAllEntities();
     }
 
     @PostMapping("/key_cards/{id}/reset_list")
     @ResponseBody
     public void resetKeyCardList(@PathVariable("id") Long id) {
-        keyCardService.resetList(id);
+        keyCardService.save(keyCardService.resetList(id));
     }
 
 
@@ -170,48 +155,45 @@ public class ApiController {
     @PostMapping("/students")
     @ResponseBody
     public Student createNewStudent(@RequestBody Student student) {
-        return studentService.addEntity(student);
+        //if a reference id gets defined in the new student, it will synchronize
+        //see the synchronizeAdd method for more detail
+        return studentService.synchronizeAdd(student);
     }
 
     @GetMapping("/students/{id}")
     @ResponseBody
     public Student getStudent(@PathVariable("id") Long id) {
-        Student student = studentService.getEntity(id);
-
-        if (student == null) {
-            return null;
-        }
-        return student;
+        return studentService.getEntity(id);
     }
 
     @PutMapping("/students/{id}")
     @ResponseBody
     public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student student) {
+        //fail-safe to make sure the student entity defined has the correct id.
+        //?###may be removable
         student.setId(id);
-        if (student.getKeyCardId() != null) {
-            studentService.assignKeyCard(student.getId(), student.getKeyCardId());
-        }
 
-        return studentService.save(student);
+        return studentService.synchronize(student);
     }
 
     @DeleteMapping("/students/{id}")
-    public void deleteStudent(@PathVariable("id") Long id) {
-        studentService.delete(id);
+    @ResponseBody
+    public List<Student> deleteStudent(@PathVariable("id") Long id) {
+        studentService.synchronizeDelete(id);
+        return studentService.getAllEntities();
     }
 
 
 
     //#################EXTRA API###################
 
-
+    //### expand access check to have the lock sync its info (maybe?), note: idk where I was going with this
     @PostMapping("/locks/{id}/access-check")
     @ResponseBody
     public boolean accessGranted(@PathVariable("id") Long id) {
         Lock lock = lockService.getEntity(id);
         if (lock.getKeyCardId() == null) return false;
-        if (keyCardService.getEntity(lock.getKeyCardId()).getStudentId() == null) return false;
-        return true;
+        return keyCardService.getEntity(lock.getKeyCardId()).getStudentId() != null;
     }
 
     @PostMapping("/assign/lock")
