@@ -2,27 +2,16 @@
 <head>
     <title>RFID Padlock - Registry</title>
     <meta http-equiv="content-type" content="text/html">
-    <meta name="Keywords" content="">
-    <meta name="Description" content="">
-    <meta name="Author" content="dnsadmin@afraid.org">
-
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
-
     <script th:src="@{js/script.js}"></script>
 </head>
-
-
 <body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
 <table border="0" width="100%" cellspacing="5" height="100%">
     <tbody>
-
-
-
     <!-- top header -->
     <tr>
         <td colspan="3" bgcolor="white" align="left" height="4%">
-
             <table bgcolor="red" cellpadding="8" width="100%">
                 <tbody>
                 <tr>
@@ -34,12 +23,8 @@
                 </tr>
                 </tbody>
             </table>
-
         </td>
     </tr>
-
-
-
     <!-- bottom header -->
     <tr>
         <td colspan="3" bgcolor="white" align="left" height="5%">
@@ -57,19 +42,12 @@
             </table>
         </td>
     </tr>
-
-
-
-
-
-
     <!-- body row -->
     <tr>
         <!-- left body cell -->
         <td bgcolor="white" valign="top" align="center" width="15%">
             <b>Contents:</b>
             <hr>
-
             <table width="60%">
                 <tbody>
                 <tr>
@@ -94,104 +72,80 @@
                 </tr>
                 </tbody>
             </table>
-
         </td>
-
-
         <!-- center body cell -->
-         <td bgcolor="white">
+        <td bgcolor="white">
             <table width="100%">
                 <tbody>
                 <tr>
                     <!-- center body cell -->
                     <td bgcolor="white">
                         <div class="table-container">
-                        <table width="100%" align="center" id="entryTable">
-                            <!-- Table head content -->
-                            <thead bgcolor="#e0e0e0">
-                            <tr>
-                                <th width="3%px">ID</th>
-                                <th width="5%px">Key Card ID</th>
-                                <th width="15%px">Name</th>
-                                <th width="3%px">Grade</th>
-                                <th width="5%px">Locks</th>
-                                <th width="5%px">Locker #s</th>
-                                <th width="5%px">Action</th>
-                            </tr>
-                            </thead>
-
-                            <!-- Table body content -->
-                            <tbody>
-                            <!-- Loop through the items and display them in the table -->
-                            <tr th:each="student : ${students}">
-                                <!--Student ID -->
-                                <td th:text="${student.id}">ID</td>
-                                <!--Key Card ID -->
-                                <td th:text="${student.keyCardId}">Key Card Id</td>
-                                <!--Name -->
-                                <td th:text="${student.name}">Name</td>
-                                <!-- Grade -->
-                                <td th:text="${student.grade}">Grade</td>
-                                <!--Locks -->
-                                <td>
-                                    <span th:text="${studentLocksMap[student.id]}"></span>
-                                </td>
-
-                                <!-- Locker #s -->
-                                <td>
-                                    <span th:text="${studentLockerNumberMap[student.id]}"></span>
-                                </td>
-                                <!--Action -->
-                                <td>
-                                    <a th:href="@{'/student/' + ${student.id}}">[   View Info   ]</a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                            <table width="100%" align="center" id="entryTable">
+                                <!-- Table head content -->
+                                <thead bgcolor="#e0e0e0">
+                                <tr>
+                                    <th width="3%px">ID</th>
+                                    <th width="5%px">Key Card ID</th>
+                                    <th width="15%px">Name</th>
+                                    <th width="3%px">Grade</th>
+                                    <th width="5%px">Locks</th>
+                                    <th width="5%px">Locker #s</th>
+                                    <th width="5%px">Action</th>
+                                </tr>
+                                </thead>
+                                <!-- Table body content -->
+                                <tbody>
+                                <!-- Loop through the items and display them in the table -->
+                                <tr th:each="student : ${students}">
+                                    <!--Student ID -->
+                                    <td th:text="${student.id}">ID</td>
+                                    <!--Key Card ID -->
+                                    <td th:text="${student.keyCardId}">Key Card Id</td>
+                                    <!--Name -->
+                                    <td th:text="${student.name}">Name</td>
+                                    <!-- Grade -->
+                                    <td th:text="${student.grade}">Grade</td>
+                                    <!--Locks -->
+                                    <td>
+                                        <span th:text="${studentLocksMap[student.id]}"></span>
+                                    </td>
+                                    <!-- Locker #s -->
+                                    <td>
+                                        <span th:text="${studentLockerNumberMap[student.id]}"></span>
+                                    </td>
+                                    <!--Action -->
+                                    <td>
+                                        <a th:href="@{'/student/' + ${student.id}}">[   View Info   ]</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
-
         </td>
-
         <!-- right body cell -->
         <td valign="top" bgcolor="white" width="15%">
-
         </td>
     </tr>
-
-
-
-
-
     <!-- top footer row -->
     <tr>
         <td colspan="3" align="center" bgcolor="white" height="1vh"></td>
     </tr>
-
     <!-- center footer row -->
     <tr>
         <td colspan="3" bgcolor="white" height="1%">
-            <center>
-                © 2025 Jackson Funk, Greyson Funk, Drake Kritzberger <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
-            </center>
+            <center th:text="${'&#x00A9; 2025 Jackson Funk, Greyson Funk, RFID Padlock is currently processing ' + studentCount + ' students.'}">text</center>
         </td>
     </tr>
-
     <!-- bottom footer row -->
     <tr>
         <td bgcolor="white" align="center" colspan="3" height="1vh"></td>
     </tr>
-
-
-
-
     </tbody>
 </table>
-
 </body>
-
-
 </html>

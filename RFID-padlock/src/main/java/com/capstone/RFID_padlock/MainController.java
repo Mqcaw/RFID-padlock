@@ -41,13 +41,10 @@ public class MainController {
         model.addAttribute("name", var);
         List<Student> students = studentService.getAllEntities();
         model.addAttribute("students", students);
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "index";
     }
 
-    @GetMapping("/success")
-    public String success() {
-        return "success";
-    }
 
     @GetMapping("/registry")
     public String registry(Model model) {
@@ -88,6 +85,7 @@ public class MainController {
         model.addAttribute("locks", locks);
         model.addAttribute("studentLocksMap", studentLocksMap);
         model.addAttribute("studentLockerNumberMap", studentLockerNumberMap);
+        model.addAttribute("studentCount", studentService.getStudentCount());
 
         return "registry";
     }
@@ -95,45 +93,53 @@ public class MainController {
     @GetMapping("/locks")
     public String locks(Model model) {
         model.addAttribute("locks", lockService.getAllEntities());
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "locks";
     }
 
     @GetMapping("/key-cards")
     public String keyCards(Model model) {
         model.addAttribute("keyCards", keyCardService.getAllEntities());
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "key-cards";
     }
 
     @GetMapping("/student/{id}")
     public String student(@PathVariable("id") Long id, Model model) {
         model.addAttribute("student", studentService.getEntity(id));
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "student";
     }
 
     @GetMapping("/lock/{id}")
     public String lock(@PathVariable("id") Long id, Model model) {
         model.addAttribute("lock", lockService.getEntity(id));
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "lock";
     }
 
     @GetMapping("/key-card/{id}")
     public String keyCard(@PathVariable("id") Long id, Model model) {
         model.addAttribute("keyCard", keyCardService.getEntity(id));
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "key-card";
     }
 
     @GetMapping("/add-student")
-    public String addStudent() {
+    public String addStudent(Model model) {
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "add-student";
     }
 
     @GetMapping("/add-key-card")
-    public String addKeyCard() {
+    public String addKeyCard(Model model) {
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "add-key-card";
     }
 
     @GetMapping("/add-lock")
-    public String addLock() {
+    public String addLock(Model model) {
+        model.addAttribute("studentCount", studentService.getStudentCount());
         return "add-lock";
     }
 

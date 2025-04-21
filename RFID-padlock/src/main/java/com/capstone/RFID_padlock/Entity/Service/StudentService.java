@@ -137,6 +137,15 @@ public class StudentService implements ServiceInterface<Student> {
         return studentRepository.findByKeyCardIdIsNotNull();
     }
 
+    public int getStudentCount() {
+        int index = 0;
+        for (Student student : getAllEntities()) {
+            index++;
+        }
+
+        return index;
+    }
+
 
 
 }
