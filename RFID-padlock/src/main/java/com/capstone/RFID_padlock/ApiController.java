@@ -9,7 +9,6 @@ import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -203,7 +202,7 @@ public class ApiController {
     }
     @PostMapping("/assign/key-card")
     @ResponseBody
-    public void assignKeyCard(@RequestParam(name="keyCardId") Long keyCardId, @RequestParam(name="studentId") Long studentId, Model model) {
+    public void assignKeyCard(@RequestParam(name="keyCardId") Long keyCardId, @RequestParam(name="studentId") Long studentId) {
         studentService.assignKeyCard(studentId, keyCardId);
     }
 
