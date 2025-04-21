@@ -3,11 +3,13 @@ package com.capstone.RFID_padlock.Entity.Service;
 import com.capstone.RFID_padlock.Entity.KeyCard;
 import com.capstone.RFID_padlock.Entity.Lock;
 import com.capstone.RFID_padlock.Entity.Repository.KeyCardRepository;
+import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class KeyCardService implements ServiceInterface<KeyCard> {
@@ -94,7 +96,15 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
         if (keyCard.getStudentId() != null) {
             //assigns/synchronizes ids across the new refrenced student, see function for more detail
             studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
+
+            //unassigns other key cards
+            for (KeyCard kc : getAllEntities()) {
+                if (Objects.equals(kc.getStudentId(), keyCard.getStudentId()) && !Objects.equals(kc.getId(), keyCard.getId())) {
+                    kc.setStudentId(null);
+                }
+            }
         }
+
 
         //checks the current instance of the key card (the new updated values), if it has a lock list defined
         if (keyCard.getLockIDList() != null) {

@@ -34,6 +34,7 @@ import java.util.List;
 
 //Delete
 
+
 //Extra Delete
 //Invoke-RestMethod -Uri "http://localhost:8081/api/key_cards/8/reset_list" -Method Post
 
@@ -90,6 +91,7 @@ public class ApiController {
     }
 
     @DeleteMapping("/locks/{id}")
+    @ResponseBody
     public List<Lock> deleteLock(@PathVariable("id") Long id) {
         lockService.synchronizeDelete(id);
         return lockService.getAllEntities();
@@ -175,6 +177,7 @@ public class ApiController {
     }
 
     @DeleteMapping("/students/{id}")
+    @ResponseBody
     public List<Student> deleteStudent(@PathVariable("id") Long id) {
         studentService.synchronizeDelete(id);
         return studentService.getAllEntities();

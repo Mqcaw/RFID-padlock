@@ -57,7 +57,10 @@ public class LockService implements ServiceInterface<Lock> {
         if (lock.getKeyCardId() != null) {
             keyCardService.addLock(lock.getKeyCardId(), lock.getId());
         } else {
-            keyCardService.getEntity(getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
+            if (getEntity(lock.getId()).getKeyCardId() != null) {
+                keyCardService.getEntity(getEntity(lock.getId()).getKeyCardId()).removeLockId(lock.getId());
+            }
+
         }
 
         return save(lock);
