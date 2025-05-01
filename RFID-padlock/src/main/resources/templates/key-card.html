@@ -2,27 +2,16 @@
 <head>
     <title th:text="${keyCard.id}">Assign</title>
     <meta http-equiv="content-type" content="text/html">
-    <meta name="Keywords" content="">
-    <meta name="Description" content="">
-    <meta name="Author" content="dnsadmin@afraid.org">
-
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
-
     <script th:src="@{/js/script.js}"></script>
 </head>
-
-
 <body text="#000000" bgcolor="cornflowerblue" link="#000000" vlink="#808080" alink="#000000">
 <table border="0" width="100%" cellspacing="5" height="100%">
     <tbody>
-
-
-
     <!-- top header -->
     <tr>
         <td colspan="3" bgcolor="white" align="left" height="4%">
-
             <table bgcolor="red" cellpadding="8" width="100%">
                 <tbody>
                 <tr>
@@ -34,12 +23,8 @@
                 </tr>
                 </tbody>
             </table>
-
         </td>
     </tr>
-
-
-
     <!-- bottom header -->
     <tr>
         <td colspan="3" bgcolor="white" align="left" height="5%">
@@ -48,35 +33,23 @@
                 <tr>
                     <td bgcolor="white" width="15%" align="center"><a th:href="@{/key-cards}">[   Back   ]</a></td>
                     <td align="center" colspan="3" bgcolor="white"><font size="5"><b>RFID Padlock - <b th:text="${keyCard.id}">id</b></b></font></td>
-                    <td bgcolor="white" width="15%" align="center" th:onclick=""><a th:href="@{/key-cards}">[   Remove Key Card   ]</a></td>
+                    <td bgcolor="white" width="15%" align="center" th:onclick="deleteKeyCard([[${keyCard.id}]])"><a th:href="@{/key-cards}">[   Remove Key Card   ]</a></td>
                 </tr>
                 </tbody>
             </table>
         </td>
     </tr>
-
-
-
-
-
-
     <!-- body row -->
     <tr>
         <!-- left body cell -->
         <td bgcolor="white" valign="top" align="center" width="15%">
             <b>Contents:</b>
             <hr>
-
             <table width="60%">
                 <tbody>
                 <tr>
                     <td>[</td>
                     <td align="center"><a th:href="@{/}">Home</a></td>
-                    <td>]</td>
-                </tr>
-                <tr>
-                    <td>[</td>
-                    <td align="center"><a href="/">Docs</a></td>
                     <td>]</td>
                 </tr>
                 <tr>
@@ -94,17 +67,9 @@
                     <td align="center"><a th:href="@{/key-cards}">Key Cards</a></td>
                     <td>]</td>
                 </tr>
-                <tr>
-                    <td>[</td>
-                    <td align="center"><a href="/">Assign</a></td>
-                    <td>]</td>
-                </tr>
                 </tbody>
             </table>
-
         </td>
-
-
         <!-- center body cell -->
         <td bgcolor="white">
             <table width="100%">
@@ -124,15 +89,18 @@
                                         </div>
                                         </br>
                                         <div>
-                                            <label for="studentId">Number:</label>
+                                            <label for="studentId">Student Id:</label>
                                             <input type="text" id="studentId" name="studentId" th:value="${keyCard.studentId}" required/>
                                         </div>
-
+                                        <div>
+                                            <p>Locks: <a th:text="${keyCard.lockIDList}">null</a></p>
+                                        </div>
                                         </br>
                                         <div>
-                                            <button type="button" onclick="updateKeyCard()">Update Key Card</button>
+                                            <button type="button" th:onclick="updateKeyCard([[${keyCard.lockIDList}]])">Update Key Card</button>
                                         </div>
                                     </form>
+                                    <button type="button" th:onclick="clearKeyCardList([[${keyCard.id}]])">Clear All Locks</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -141,51 +109,27 @@
                 </tr>
                 </tbody>
             </table>
-
         </td>
-
         <!-- right body cell -->
         <td valign="top" bgcolor="white" width="15%">
-
-
-
         </td>
     </tr>
-
-
-
-
-
     <!-- top footer row -->
     <tr>
         <td colspan="3" align="center" bgcolor="white" height="1vh"></td>
     </tr>
-
     <!-- center footer row -->
     <tr>
         <td colspan="3" bgcolor="white" height="1%">
-            <center>
-                © 2025 Jackson Funk, Greyson Funk, <a href="https://freedns.afraid.org/">RFID Padlock</a> is currently processing 9999 students.<br>
-            </center>
+            <center th:text="${'&#x00A9; 2025 Jackson Funk, Greyson Funk, RFID Padlock is currently processing ' + studentCount + ' students.'}">text</center>
         </td>
     </tr>
-
     <!-- bottom footer row -->
     <tr>
         <td bgcolor="white" align="center" colspan="3" height="1vh"></td>
     </tr>
-
-
-
-
     </tbody>
 </table>
-
-<script>
-
-
-</script>
-
+<script></script>
 </body>
-
 </html>

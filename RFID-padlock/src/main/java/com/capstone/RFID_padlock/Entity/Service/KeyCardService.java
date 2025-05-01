@@ -5,20 +5,24 @@ import com.capstone.RFID_padlock.Entity.Lock;
 import com.capstone.RFID_padlock.Entity.Repository.KeyCardRepository;
 import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class KeyCardService implements ServiceInterface<KeyCard> {
 
     private final KeyCardRepository keyCardRepository;
     private LockService lockService;
+    private StudentService studentService;
 
     @Autowired
-    public KeyCardService(KeyCardRepository keyCardRepository, LockService lockService) {
+    public KeyCardService(KeyCardRepository keyCardRepository, LockService lockService, @Lazy StudentService studentService) {
         this.keyCardRepository = keyCardRepository;
         this.lockService = lockService;
+        this.studentService = studentService;
     }
 
     @Override
@@ -76,8 +80,73 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
         lockService.save(lock);
     }
 
-    public void resetList(Long id) {
-        getEntity(id).resetList();
+    public KeyCard synchronize(Long keyCardId) {
+        KeyCard keyCard = getEntity(keyCardId);
+
+        return synchronize(keyCard);
+    }
+
+    public KeyCard synchronize(KeyCard keyCard) {
+        if (keyCard.getId() == null || getEntity(keyCard.getId()) == null) {
+            return null;
+        }
+
+        //checks the current instance of the key card (the new updated values), if it has a student id defined
+        //this check will run even if the student value defined is the same as before the update. this doesn't matter.
+        if (keyCard.getStudentId() != null) {
+            //assigns/synchronizes ids across the new refrenced student, see function for more detail
+            studentService.assignKeyCard(keyCard.getStudentId(), keyCard.getId());
+
+            //unassigns other key cards
+            for (KeyCard kc : getAllEntities()) {
+                if (Objects.equals(kc.getStudentId(), keyCard.getStudentId()) && !Objects.equals(kc.getId(), keyCard.getId())) {
+                    kc.setStudentId(null);
+                }
+            }
+        }
+
+
+        //checks the current instance of the key card (the new updated values), if it has a lock list defined
+        if (keyCard.getLockIDList() != null) {
+            //loop through all locks
+            for (Long lockId : keyCard.getLockIDList()) {
+                //adds lock to the key card
+                addLock(keyCard.getId(), lockId);
+            }
+        }
+        return save(keyCard);
+    }
+
+    public KeyCard synchronizeAdd(KeyCard keyCard) {
+        //adds new key card entity to the database based on the key card param
+        KeyCard newKeyCard = addEntity(keyCard);
+
+        return synchronize(newKeyCard);
+    }
+
+    public void synchronizeDelete(Long id) {
+        KeyCard keyCard = getEntity(id);
+        if (keyCard.getStudentId() != null) {
+            studentService.getEntity(keyCard.getStudentId()).setKeyCardId(null);
+        }
+        for (Long lockId : keyCard.getLockIDList()) {
+            if (lockService.getEntity(lockId) != null) {
+                lockService.getEntity(lockId).setKeyCardId(null);
+            }
+        }
+        delete(keyCard);
+    }
+
+    public KeyCard resetList(Long id) {
+        KeyCard keyCard = getEntity(id);
+        for (Long lockId : keyCard.getLockIDList()) {
+            if (lockService.getEntity(lockId) != null) {
+                lockService.getEntity(lockId).setKeyCardId(null);
+            }
+        }
+        keyCard.clearList();
+
+        return save(keyCard);
     }
 
 
