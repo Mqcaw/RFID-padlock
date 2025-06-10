@@ -140,7 +140,7 @@ public class StudentService implements ServiceInterface<Student> {
     public int getStudentCount() {
         int index = 0;
         for (Student student : getAllEntities()) {
-            index++;
+            index++; 
         }
 
         return index;

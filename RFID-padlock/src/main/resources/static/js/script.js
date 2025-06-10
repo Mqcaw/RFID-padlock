@@ -169,7 +169,7 @@ function createKeyCard() {
     //map objects from the form data
     const data = {};
     formData.forEach((value, key) => {
-        if (key == "studentId") {
+        if (key == "studentId" || key == "id") {
             data[key] = value;
         }
 
