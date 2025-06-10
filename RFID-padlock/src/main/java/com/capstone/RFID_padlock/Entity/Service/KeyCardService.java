@@ -127,7 +127,10 @@ public class KeyCardService implements ServiceInterface<KeyCard> {
     public void synchronizeDelete(Long id) {
         KeyCard keyCard = getEntity(id);
         if (keyCard.getStudentId() != null) {
-            studentService.getEntity(keyCard.getStudentId()).setKeyCardId(null);
+            Student student = studentService.getEntity(keyCard.getStudentId());
+            if (student != null) {
+                student.setKeyCardId(null);
+            }
         }
         for (Long lockId : keyCard.getLockIDList()) {
             if (lockService.getEntity(lockId) != null) {
