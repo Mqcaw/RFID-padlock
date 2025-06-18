@@ -128,7 +128,10 @@ public class StudentService implements ServiceInterface<Student> {
     public void synchronizeDelete(Long id) {
         Student student = getEntity(id);
         if (student.getKeyCardId() != null) {
-            keyCardService.getEntity(student.getKeyCardId()).setStudentId(null);
+            KeyCard keyCard = keyCardService.getEntity(student.getKeyCardId());
+            if (keyCard != null) {
+                keyCard.setStudentId(null);
+            }
         }
         delete(student);
     }
@@ -140,7 +143,7 @@ public class StudentService implements ServiceInterface<Student> {
     public int getStudentCount() {
         int index = 0;
         for (Student student : getAllEntities()) {
-            index++;
+            index++; 
         }
 
         return index;

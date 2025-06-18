@@ -1,7 +1,9 @@
 package com.capstone.RFID_padlock.Entity.Service;
 
+import com.capstone.RFID_padlock.Entity.KeyCard;
 import com.capstone.RFID_padlock.Entity.Lock;
 import com.capstone.RFID_padlock.Entity.Repository.LockRepository;
+import com.capstone.RFID_padlock.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -82,7 +84,10 @@ public class LockService implements ServiceInterface<Lock> {
     public void synchronizeDelete(Long id) {
         Lock lock = getEntity(id);
         if (lock.getKeyCardId() != null) {
-            keyCardService.getEntity(lock.getKeyCardId()).removeLockId(lock.getId());
+            KeyCard keyCard = keyCardService.getEntity(lock.getKeyCardId());
+            if (keyCard != null) {
+                keyCard.removeLockId(lock.getId());
+            }
         }
         delete(lock);
     }

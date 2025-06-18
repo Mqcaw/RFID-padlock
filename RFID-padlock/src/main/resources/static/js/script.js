@@ -169,14 +169,11 @@ function createKeyCard() {
     //map objects from the form data
     const data = {};
     formData.forEach((value, key) => {
-        if (key == "studentId") {
+        if (key == "studentId" || key == "id") {
             data[key] = value;
         }
 
     });
-
-
-    console.log(data); //debugging line to check the contents of data
 
     // Send a POST request
     fetch('/api/key_cards', {
@@ -191,6 +188,8 @@ function createKeyCard() {
         console.error('Error creating key card:', error);
         alert('Failed to create key card');
     });
+
+    window.location.href = window.location.origin + "/key-cards";
 }
 
 //function for update key card form on key card page.
@@ -243,7 +242,7 @@ function deleteKeyCard(id) {
         alert('Failed to delete key card');
     });
 
-    window.location.href = window.location.origin + "/key_cards";
+    window.location.href = window.location.origin + "/key-cards";
 }
 
 function clearKeyCardList(id) {
